@@ -1,0 +1,149 @@
+<div class="dash-body">
+  <div class="dash-hero">
+    <div>
+      <div class="hello">◉ LOT APPROVALS</div>
+      <h1>Review <em>registrations</em></h1>
+      <p class="sub">
+        Lots stay invisible to drivers until you approve them. Review address,
+        coordinates, and spot count before waving them through.
+      </p>
+    </div>
+  </div>
+
+  <div class="filter-bar">
+    <button
+      class="filter-btn"
+      [class.active]="filter === 'PENDING'"
+      (click)="filter = 'PENDING'"
+    >
+      Pending ({{ pendingLots.length }})
+    </button>
+
+    <button
+      class="filter-btn"
+      [class.active]="filter === 'APPROVED'"
+      (click)="filter = 'APPROVED'"
+    >
+      Approved
+    </button>
+
+    <button
+      class="filter-btn"
+      [class.active]="filter === 'ALL'"
+      (click)="filter = 'ALL'"
+    >
+      All
+    </button>
+  </div>
+
+  <div class="loading" *ngIf="loading">Loading lots...</div>
+  <div class="error-banner" *ngIf="error">{{ error }}</div>
+
+  <div class="approval-list" *ngIf="!loading">
+    <article
+      class="approval-card"
+      *ngFor="let lot of filtered"
+      [class.pending]="!lot.isApproved"
+    >
+      <div class="ac-head">
+        <div>
+          <span
+            class="chip"
+            [class.lime]="lot.isApproved"
+            [class.amber]="!lot.isApproved"
+          >
+            {{ lot.isApproved ? '● APPROVED' : '○ PENDING' }}
+          </span>
+
+          <span class="chip mono">#{{ lot.id }}</span>
+        </div>
+
+        <span class="ac-date mono">
+          {{ lot.createdAt | date:'MMM d, yyyy' }}
+        </span>
+      </div>
+
+      <h3 class="ac-name">{{ lot.name }}</h3>
+
+      <p class="ac-desc" *ngIf="lot.description">{{ lot.description }}</p>
+
+      <div class="ac-details">
+        <div class="ac-det">
+          <div class="ac-label mono">ADDRESS</div>
+          <div class="ac-val">
+            {{ lot.address }}, {{ lot.city }}, {{ lot.state }}
+            {{ lot.pincode }}
+          </div>
+        </div>
+
+        <div class="ac-det">
+          <div class="ac-label mono">COORDINATES</div>
+          <div class="ac-val mono">
+            {{ lot.latitude.toFixed(5) }},
+            {{ lot.longitude.toFixed(5) }}
+          </div>
+        </div>
+
+        <div class="ac-det">
+          <div class="ac-label mono">CAPACITY</div>
+          <div class="ac-val">
+            {{ lot.totalSpots }} spots · {{ lot.availableSpots }} open
+          </div>
+        </div>
+
+        <div class="ac-det">
+          <div class="ac-label mono">HOURS</div>
+          <div class="ac-val">{{ lot.openTime }} — {{ lot.closeTime }}</div>
+        </div>
+
+        <div class="ac-det">
+          <div class="ac-label mono">MANAGER</div>
+          <div class="ac-val">User #{{ lot.managerId }}</div>
+        </div>
+      </div>
+
+      <div class="ac-actions">
+        <button
+          *ngIf="!lot.isApproved"
+          class="btn"
+          [disabled]="actionId === lot.id"
+          (click)="approve(lot)"
+        >
+          ✓ Approve
+        </button>
+
+        <button
+          *ngIf="!lot.isApproved"
+          class="btn ghost"
+          [disabled]="actionId === lot.id"
+          (click)="reject(lot)"
+        >
+          ✕ Reject
+        </button>
+
+        <a
+          *ngIf="lot.isApproved"
+          target="_blank"
+          class="btn ghost sm"
+          [href]="'https://www.google.com/maps?q=' + lot.latitude + ',' + lot.longitude"
+        >
+          View on map →
+        </a>
+
+        <button
+          class="btn danger sm"
+          [disabled]="actionId === lot.id"
+          (click)="delete(lot)"
+        >
+          Delete
+        </button>
+      </div>
+    </article>
+
+    <div class="empty" *ngIf="!filtered.length">
+      <h3 *ngIf="filter === 'PENDING'">Inbox zero, boss.</h3>
+      <h3 *ngIf="filter !== 'PENDING'">No lots in this view</h3>
+      <p>New lot registrations will land here as managers submit them.</p>
+    </div>
+  </div>
+</div>

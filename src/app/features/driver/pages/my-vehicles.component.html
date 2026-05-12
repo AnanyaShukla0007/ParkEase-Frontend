@@ -1,0 +1,108 @@
+<div class="dash-body">
+  <div class="dash-hero">
+    <div>
+      <div class="hello">◉ YOUR GARAGE</div>
+      <h1>My <em>vehicles</em></h1>
+      <p class="sub">Register every car you'd like to park. EV-tagged vehicles unlock charging spots automatically.</p>
+    </div>
+    <button class="btn" (click)="open()">
+      <span>+ Add a vehicle</span>
+    </button>
+  </div>
+
+  <div class="loading" *ngIf="loading">Loading your garage...</div>
+
+  <div class="garage-grid" *ngIf="!loading && vehicles.length">
+    <article class="vehicle-card" *ngFor="let v of vehicles" [class.ev]="v.isEV">
+      <!-- Card-top: illustration -->
+      <div class="vehicle-art">
+        <svg viewBox="0 0 160 80" fill="none">
+          <path d="M10 54 L20 54 C24 46, 32 34, 44 32 L70 28 C90 26, 118 26, 134 28 L148 32 C154 36, 158 46, 158 54 L10 54 Z"
+                [attr.fill]="v.isEV ? '#5eead4' : '#ffd84d'"/>
+          <path d="M44 32 L70 28 C90 26, 118 26, 134 28 L146 31 L128 32 L90 28 L60 31 Z"
+                fill="#050a14" opacity=".35"/>
+          <circle cx="40" cy="60" r="8" fill="#050a14"/>
+          <circle cx="124" cy="60" r="8" fill="#050a14"/>
+          <circle cx="40" cy="60" r="3" [attr.fill]="v.isEV ? '#5eead4' : '#ffd84d'"/>
+          <circle cx="124" cy="60" r="3" [attr.fill]="v.isEV ? '#5eead4' : '#ffd84d'"/>
+        </svg>
+        <span class="ev-badge" *ngIf="v.isEV">⚡ ELECTRIC</span>
+      </div>
+
+      <div class="vehicle-body">
+        <div class="vehicle-plate mono">{{ v.licensePlate }}</div>
+        <div class="vehicle-name">{{ v.make }} {{ v.model }}</div>
+        <div class="vehicle-meta">
+          <span class="chip">{{ typeLabel[v.vehicleType] }}</span>
+          <span class="chip">{{ v.color }}</span>
+          <span class="chip lime" *ngIf="v.isActive">ACTIVE</span>
+        </div>
+      </div>
+
+      <div class="vehicle-actions">
+        <button class="btn ghost sm" (click)="remove(v)">Remove</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="empty" *ngIf="!loading && !vehicles.length">
+    <h3>Your garage is empty</h3>
+    <p>Register a vehicle to start booking spots. You can register as many as you'd like.</p>
+    <button class="btn" (click)="open()">Add your first vehicle</button>
+  </div>
+</div>
+
+<!-- Add vehicle modal -->
+<div class="modal-backdrop" *ngIf="showForm" (click)="close()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <span class="chip accent">◉ ADD VEHICLE</span>
+    <h2>Register a vehicle</h2>
+    <p class="sub">All fields required. Check "Electric" to unlock EV charging spots.</p>
+
+    <form [formGroup]="form" (ngSubmit)="save()" novalidate>
+      <div class="field">
+        <label>License plate</label>
+        <input type="text" formControlName="licensePlate" placeholder="UP 85 AB 1234" style="text-transform:uppercase">
+      </div>
+
+      <div class="grid-2">
+        <div class="field">
+          <label>Make</label>
+          <input type="text" formControlName="make" placeholder="Tata, Maruti, Ola...">
+        </div>
+        <div class="field">
+          <label>Model</label>
+          <input type="text" formControlName="model" placeholder="Nexon EV, Swift, S1 Pro...">
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="field">
+          <label>Colour</label>
+          <input type="text" formControlName="color" placeholder="Midnight blue">
+        </div>
+        <div class="field">
+          <label>Type</label>
+          <select formControlName="vehicleType">
+            <option *ngFor="let t of types" [ngValue]="t">{{ typeLabel[t] }}</option>
+          </select>
+        </div>
+      </div>
+
+      <label class="check ev-check">
+        <input type="checkbox" formControlName="isEV">
+        ⚡ This is an electric vehicle
+      </label>
+
+      <div class="error-banner" *ngIf="error">{{ error }}</div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn ghost" (click)="close()">Cancel</button>
+        <button type="submit" class="btn" [disabled]="saving">
+          <span *ngIf="!saving">Register vehicle</span>
+          <span *ngIf="saving" class="mono">SAVING...</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

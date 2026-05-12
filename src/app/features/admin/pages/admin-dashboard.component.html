@@ -1,0 +1,126 @@
+<div class="dash-body">
+  <div class="dash-hero">
+    <div>
+      <div class="hello">◉ PLATFORM HQ · {{ auth.currentUser?.email }}</div>
+      <h1>Platform <em>command.</em></h1>
+      <p class="sub">
+        Approvals, users, and cross-platform metrics — one pane of glass for the
+        whole ParkEase network.
+      </p>
+    </div>
+
+    <div class="head-actions">
+      <a class="btn" routerLink="/admin/lots" *ngIf="pendingApprovals > 0">
+        ⚠ {{ pendingApprovals }} pending approval{{
+          pendingApprovals === 1 ? '' : 's'
+        }}
+      </a>
+    </div>
+  </div>
+
+  <div class="loading" *ngIf="loading">Loading platform state...</div>
+
+  <ng-container *ngIf="!loading">
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="label">Total users</div>
+        <div class="val amber">{{ allUsers.length }}</div>
+        <div class="hint">{{ activeUsers }} active</div>
+      </div>
+
+      <div class="stat-card cyan">
+        <div class="label">Drivers</div>
+        <div class="val cyan">{{ drivers }}</div>
+        <div class="hint">Registered accounts</div>
+      </div>
+
+      <div class="stat-card lime">
+        <div class="label">Managers</div>
+        <div class="val lime">{{ managers }}</div>
+        <div class="hint">Operating lots</div>
+      </div>
+
+      <div class="stat-card rose">
+        <div class="label">Pending approvals</div>
+        <div class="val rose">{{ pendingApprovals }}</div>
+        <div class="hint">Lots awaiting review</div>
+      </div>
+    </div>
+
+    <div class="stat-row" *ngIf="summary">
+      <div class="stat-card">
+        <div class="label">Total bookings</div>
+        <div class="val amber">{{ summary.totalBookings | number }}</div>
+      </div>
+
+      <div class="stat-card lime">
+        <div class="label">Platform revenue</div>
+        <div class="val lime">
+          ₹{{ summary.totalRevenue | number:'1.0-0' }}
+        </div>
+      </div>
+
+      <div class="stat-card cyan">
+        <div class="label">Active bookings</div>
+        <div class="val cyan">{{ summary.activeBookings }}</div>
+      </div>
+
+      <div class="stat-card rose">
+        <div class="label">Network occupancy</div>
+        <div class="val rose">
+          {{ (summary.occupancyRate || 0).toFixed(0) }}%
+        </div>
+      </div>
+    </div>
+
+    <div class="dash-section" *ngIf="topCities.length">
+      <div class="section-bar">
+        <h2>Top <em>cities</em> by lot count</h2>
+      </div>
+
+      <div class="chart-panel city-panel">
+        <div class="type-rows">
+          <div class="type-row" *ngFor="let c of topCities; let i = index">
+            <div class="tr-label">
+              <span class="city-rank mono">#{{ i + 1 }}</span>
+              {{ c.city }}
+            </div>
+
+            <div class="tr-track">
+              <div
+                class="tr-fill"
+                [style.width.%]="(c.count / maxCity) * 100"
+              ></div>
+            </div>
+
+            <div class="tr-val mono">{{ c.count }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dash-section" *ngIf="pendingApprovals > 0">
+      <div class="section-bar">
+        <h2>Awaiting <em>approval</em></h2>
+        <a class="count" routerLink="/admin/lots">REVIEW ALL →</a>
+      </div>
+
+      <div class="data-list">
+        <div class="data-item" *ngFor="let lot of pendingLots">
+          <div class="data-marker amber">{{ lot.totalSpots }}</div>
+
+          <div class="data-body">
+            <div class="data-title">{{ lot.name }}</div>
+            <div class="data-meta">
+              {{ lot.city }}, {{ lot.state }} · Manager #{{ lot.managerId }}
+            </div>
+          </div>
+
+          <div class="data-actions">
+            <a class="btn sm" routerLink="/admin/lots">Review</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>

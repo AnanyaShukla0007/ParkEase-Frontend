@@ -1,0 +1,40 @@
+{
+  "name": "parkease-frontend",
+  "version": "1.0.0",
+  "description": "ParkEase — Smart Parking Management Platform (Angular 16 frontend)",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test",
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
+    "e2e": "cypress run"
+  },
+  "private": true,
+  "dependencies": {
+    "@abacritt/angularx-social-login": "^1.2.6",
+    "@angular/animations": "^16.2.12",
+    "@angular/common": "^16.2.12",
+    "@angular/compiler": "^16.2.12",
+    "@angular/core": "^16.2.12",
+    "@angular/forms": "^16.2.12",
+    "@angular/platform-browser": "^16.2.12",
+    "@angular/platform-browser-dynamic": "^16.2.12",
+    "@angular/router": "^16.2.12",
+    "leaflet": "^1.9.4",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0",
+    "zone.js": "~0.13.0"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^16.2.16",
+    "@angular/cli": "^16.2.16",
+    "@angular/compiler-cli": "^16.2.12",
+    "@types/leaflet": "^1.9.8",
+    "@types/node": "^18.0.0",
+    "cypress": "^13.17.0",
+    "typescript": "~5.1.6"
+  }
+}

@@ -1,0 +1,9 @@
+:host { display: block; }
+
+.chip.sm { padding: 2px 8px; font-size: .6rem; margin-left: 6px; }
+.chip.lime { color: var(--lime); border-color: rgba(198,255,77,.35); background: rgba(198,255,77,.06); }
+.chip.rose { color: var(--rose); border-color: rgba(255,93,115,.35); background: rgba(255,93,115,.08); }
+.chip.amber { color: var(--amber); border-color: rgba(255,216,77,.35); background: rgba(255,216,77,.06); }
+.chip.cyan { color: var(--cyan); border-color: rgba(94,234,212,.35); background: rgba(94,234,212,.06); }
+
+.data-marker.amber { background: rgba(255,216,77,.12); border-color: rgba(255,216,77,.3); color: var(--amber); }

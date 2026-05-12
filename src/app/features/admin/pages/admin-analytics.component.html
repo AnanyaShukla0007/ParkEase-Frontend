@@ -1,0 +1,125 @@
+<div class="dash-body">
+  <div class="dash-hero">
+    <div>
+      <div class="hello">◉ PLATFORM ANALYTICS</div>
+      <h1>Platform <em>metrics.</em></h1>
+      <p class="sub">Network-wide totals, revenue, occupancy, and booking volumes across all active lots.</p>
+    </div>
+    <button class="btn" (click)="exportPlatformReport()" [disabled]="!summary">Download report</button>
+  </div>
+
+  <div class="loading" *ngIf="loading">Loading analytics...</div>
+
+  <ng-container *ngIf="!loading && summary">
+    <!-- KPI Grid -->
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="label">Total users</div>
+        <div class="val amber">{{ summary.totalUsers | number }}</div>
+        <div class="hint">Registered accounts</div>
+      </div>
+      <div class="stat-card lime">
+        <div class="label">Total lots</div>
+        <div class="val lime">{{ summary.totalLots | number }}</div>
+        <div class="hint">Active facilities</div>
+      </div>
+      <div class="stat-card cyan">
+        <div class="label">Total bookings</div>
+        <div class="val cyan">{{ summary.totalBookings | number }}</div>
+        <div class="hint">All time</div>
+      </div>
+      <div class="stat-card lime">
+        <div class="label">Platform revenue</div>
+        <div class="val lime">₹{{ summary.totalRevenue | number:'1.0-0' }}</div>
+        <div class="hint">Total collected</div>
+      </div>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-card cyan">
+        <div class="label">Active bookings</div>
+        <div class="val cyan">{{ summary.activeBookings }}</div>
+        <div class="hint">Currently parked</div>
+      </div>
+      <div class="stat-card amber">
+        <div class="label">Network occupancy</div>
+        <div class="val amber">{{ (summary.occupancyRate || 0).toFixed(1) }}%</div>
+        <div class="hint">Across all lots right now</div>
+      </div>
+    </div>
+
+    <!-- Occupancy meter -->
+    <div class="dash-section">
+      <div class="section-bar">
+        <h2>Network <em>occupancy</em></h2>
+      </div>
+      <div class="occ-meter">
+        <div class="occ-track">
+          <div class="occ-fill" [style.width.%]="occupancyWidth"></div>
+        </div>
+        <div class="occ-label mono">{{ (summary.occupancyRate || 0).toFixed(1) }}% occupied</div>
+      </div>
+    </div>
+
+    <!-- Revenue Summary -->
+    <div class="dash-section">
+      <div class="section-bar">
+        <h2>Revenue <em>summary</em></h2>
+      </div>
+      <div class="rev-cards">
+        <div class="rev-card">
+          <div class="rc-label mono">TOTAL REVENUE</div>
+          <div class="rc-val">₹{{ summary.totalRevenue | number:'1.0-0' }}</div>
+        </div>
+        <div class="rev-card">
+          <div class="rc-label mono">AVG PER BOOKING</div>
+          <div class="rc-val">₹{{ (summary.totalBookings > 0 ? summary.totalRevenue / summary.totalBookings : 0) | number:'1.0-0' }}</div>
+        </div>
+        <div class="rev-card">
+          <div class="rc-label mono">REVENUE PER LOT</div>
+          <div class="rc-val">₹{{ (summary.totalLots > 0 ? summary.totalRevenue / summary.totalLots : 0) | number:'1.0-0' }}</div>
+        </div>
+        <div class="rev-card">
+          <div class="rc-label mono">BOOKINGS PER LOT</div>
+          <div class="rc-val">{{ (summary.totalLots > 0 ? summary.totalBookings / summary.totalLots : 0) | number:'1.1-1' }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dash-section">
+      <div class="section-bar">
+        <h2>Silent demand <em>heatmap</em></h2>
+        <span class="count mono">{{ demand.length }} SIGNALS</span>
+      </div>
+      <div class="data-list" *ngIf="demand.length; else noDemand">
+        <div class="data-item" *ngFor="let d of demand.slice(0, 6)">
+          <div class="data-marker cyan">{{ d.totalSearches || d.count || d.searches || 0 }}</div>
+          <div class="data-body">
+            <div class="data-title">{{ d.city || d.area || d.location || 'Unknown area' }}</div>
+            <div class="data-meta">Failed searches {{ d.failedSearches || d.failures || 0 }} · {{ d.hour ?? d.peakHour ?? 'mixed' }}</div>
+          </div>
+        </div>
+      </div>
+      <ng-template #noDemand>
+        <div class="empty"><h3>No failed-search demand yet</h3><p>Signals appear when nearby searches cannot find available spots.</p></div>
+      </ng-template>
+    </div>
+
+    <div class="dash-section">
+      <div class="section-bar">
+        <h2>Failed demand <em>hours</em></h2>
+      </div>
+      <div class="rev-cards">
+        <div class="rev-card" *ngFor="let h of failedHours.slice(0, 6)">
+          <div class="rc-label mono">{{ (h.hour ?? h.peakHour ?? 0).toString().padStart(2, '0') }}:00</div>
+          <div class="rc-val">{{ h.count || h.failedSearches || h.total || 0 }}</div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <div class="empty" *ngIf="!loading && !summary">
+    <h3>Analytics unavailable</h3>
+    <p>The analytics service may be offline. Try again shortly.</p>
+  </div>
+</div>

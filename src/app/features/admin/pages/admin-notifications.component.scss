@@ -1,0 +1,41 @@
+:host { display: block; }
+.notif-form-wrap { display: grid; grid-template-columns: 1fr 380px; gap: 40px; margin-top: 8px; align-items: start; }
+@media (max-width: 900px) { .notif-form-wrap { grid-template-columns: 1fr; } }
+
+.notif-form { display: flex; flex-direction: column; gap: 20px; }
+.form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 600px) { .form-row-2 { grid-template-columns: 1fr; } }
+
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label { font-family: var(--font-mono); font-size: .7rem; letter-spacing: .14em; color: var(--text-faint); text-transform: uppercase; }
+.field input, .field select, .field textarea {
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  color: var(--text);
+  padding: 12px 14px;
+  font-size: .95rem;
+  font-family: var(--font-body);
+  outline: none;
+  transition: border-color .2s;
+  resize: vertical;
+}
+.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--amber); }
+.field select option { background: #0a1222; }
+.hint { font-size: .7rem; color: var(--text-faint); margin-left: 6px; text-transform: none; letter-spacing: 0; font-family: var(--font-body); }
+.char-count { font-size: .7rem; color: var(--text-faint); letter-spacing: .06em; text-align: right; margin-top: 4px; }
+.error { color: var(--rose); font-size: .82rem; }
+
+.success-banner { padding: 12px 14px; border: 1px solid rgba(198,255,77,.3); background: rgba(198,255,77,.08); color: var(--lime, #c6ff4d); border-radius: var(--r-sm); font-size: .9rem; }
+.error-banner { padding: 12px 14px; border: 1px solid rgba(255,93,115,.4); background: rgba(255,93,115,.08); color: var(--rose); border-radius: var(--r-sm); font-size: .9rem; }
+
+.notif-tips {
+  padding: 28px;
+  background: rgba(255,255,255,.03);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+}
+.notif-tips h3 { color: var(--paper); font-size: 1.1rem; margin-bottom: 16px; }
+.notif-tips ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.notif-tips li { color: var(--text-dim); font-size: .88rem; line-height: 1.5; padding-left: 12px; border-left: 2px solid rgba(255,216,77,.3); }
+.notif-tips strong { color: var(--paper); }

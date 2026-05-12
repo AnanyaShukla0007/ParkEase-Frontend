@@ -1,0 +1,108 @@
+<div class="dash-body">
+  <div class="dash-hero">
+    <div>
+      <div class="hello">◉ {{ auth.currentUser?.email }}</div>
+      <h1>Welcome back, <em>operator</em>.</h1>
+      <p class="sub">Your lots, your spots, your revenue — at a glance. Approvals from admin unlock public visibility.</p>
+    </div>
+    <button class="btn" (click)="go('/manager/lots')">
+      <span>Manage lots</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+
+  <div class="loading" *ngIf="loading">Loading your portfolio...</div>
+
+  <ng-container *ngIf="!loading">
+    <!-- Stats -->
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="label">Total lots</div>
+        <div class="val amber">{{ totalLots }}</div>
+        <div class="hint">{{ approvedLots }} approved · {{ totalLots - approvedLots }} pending</div>
+      </div>
+      <div class="stat-card cyan">
+        <div class="label">Total spots</div>
+        <div class="val cyan">{{ totalSpots }}</div>
+        <div class="hint">Across all your lots</div>
+      </div>
+      <div class="stat-card lime">
+        <div class="label">Available now</div>
+        <div class="val lime">{{ availableSpots }}</div>
+        <div class="hint">Bookable right this minute</div>
+      </div>
+      <div class="stat-card rose">
+        <div class="label">Occupancy</div>
+        <div class="val rose">{{ occupancy }}%</div>
+        <div class="hint">Live across portfolio</div>
+      </div>
+    </div>
+
+    <!-- My lots -->
+    <div class="dash-section">
+      <div class="section-bar">
+        <h2>Your <em>lots</em></h2>
+        <a class="count" routerLink="/manager/lots">MANAGE ALL →</a>
+      </div>
+
+      <div class="data-list" *ngIf="lots.length; else noLots">
+        <div class="data-item" *ngFor="let lot of lots.slice(0, 5)">
+          <div class="data-marker" [class.lime]="lot.isApproved && lot.isOpen" [class.amber]="!lot.isApproved" [class.rose]="!lot.isOpen && lot.isApproved">
+            {{ lot.availableSpots }}
+          </div>
+          <div class="data-body">
+            <div class="data-title">{{ lot.name }}</div>
+            <div class="data-meta">
+              {{ lot.city }}, {{ lot.state }} · {{ lot.totalSpots }} spots
+              <span class="chip sm" *ngIf="!lot.isApproved">PENDING APPROVAL</span>
+              <span class="chip sm lime" *ngIf="lot.isApproved && lot.isOpen">OPEN</span>
+              <span class="chip sm rose" *ngIf="lot.isApproved && !lot.isOpen">CLOSED</span>
+            </div>
+          </div>
+          <div class="data-actions">
+            <button class="btn ghost sm" (click)="go('/manager/analytics/' + lot.id)">Analytics</button>
+            <button class="btn sm" (click)="go('/manager/lots/' + lot.id)">Manage</button>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #noLots>
+        <div class="empty">
+          <h3>No lots registered yet</h3>
+          <p>Register your first lot. Admin approval is required before it becomes publicly bookable.</p>
+          <button class="btn" (click)="go('/manager/lots')">Register a lot</button>
+        </div>
+      </ng-template>
+    </div>
+
+    <!-- Recent bookings -->
+    <div class="dash-section" *ngIf="recentBookings.length">
+      <div class="section-bar">
+        <h2>Recent <em>activity</em></h2>
+      </div>
+
+      <div class="data-list">
+        <div class="data-item" *ngFor="let b of recentBookings">
+          <div class="data-marker cyan">#{{ b.id }}</div>
+          <div class="data-body">
+            <div class="data-title">{{ b.vehiclePlate }} · Spot #{{ b.spotId }}</div>
+            <div class="data-meta">
+              Lot #{{ b.lotId }} · {{ b.createdAt | date:'MMM d, HH:mm' }}
+              · ₹{{ b.finalAmount ?? b.estimatedAmount }}
+            </div>
+          </div>
+          <div class="data-actions">
+            <span class="chip sm" [class.amber]="b.status === BookingStatus.Reserved"
+                                   [class.cyan]="b.status === BookingStatus.Active"
+                                   [class.lime]="b.status === BookingStatus.Completed"
+                                   [class.rose]="b.status === BookingStatus.Cancelled">
+              {{ b.status === BookingStatus.Reserved ? 'RESERVED' :
+                 b.status === BookingStatus.Active ? 'ACTIVE' :
+                 b.status === BookingStatus.Completed ? 'DONE' : 'CANCELLED' }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>

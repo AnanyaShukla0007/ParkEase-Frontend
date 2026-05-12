@@ -1,0 +1,58 @@
+<nav class="dash-nav">
+  <a routerLink="/" class="nav-brand">
+    <span class="brand-mark">P◎</span>
+    <div class="brand-txt">
+      <span class="brand-name">ParkEase</span>
+      <span class="brand-tag mono">{{ brandTag }}</span>
+    </div>
+  </a>
+
+  <div class="nav-links">
+    <a *ngFor="let l of links"
+       [routerLink]="l.path"
+       routerLinkActive="active"
+       class="nav-link">
+      <span class="nav-icon" [innerHTML]="l.icon"></span>
+      {{ l.label }}
+    </a>
+  </div>
+
+  <div class="nav-user">
+    <app-analog-clock></app-analog-clock>
+    <div class="user-chip">
+      <span class="user-avatar">{{ (auth.currentUser?.fullName || 'G')[0] }}</span>
+      <div class="user-meta">
+        <span class="user-name">{{ auth.currentUser?.fullName || 'Guest' }}</span>
+        <span class="user-role mono">{{ auth.currentUser?.role || 'BROWSING' }}</span>
+      </div>
+    </div>
+    <button class="btn ghost sm"
+            *ngIf="auth.isLoggedIn && (auth.role === 'DRIVER' || auth.role === 'MANAGER')"
+            (click)="changePassword()">
+      Change password
+    </button>
+    <button class="btn ghost sm" *ngIf="auth.isLoggedIn" (click)="logout()">Logout</button>
+    <button class="btn ghost sm" *ngIf="!auth.isLoggedIn" routerLink="/login">Sign in</button>
+  </div>
+</nav>
+
+<div class="nav-feedback ok" *ngIf="passwordMessage">{{ passwordMessage }}</div>
+<div class="nav-feedback bad" *ngIf="passwordError">{{ passwordError }}</div>
+
+<!-- Car animation strip below navbar -->
+<div class="nav-road-strip">
+  <div class="nav-car">
+    <svg viewBox="0 0 120 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M8 34 L18 34 C20 30, 24 24, 30 22 L50 20 C58 18, 72 18, 80 20 L98 24 C104 26, 108 30, 110 34 L112 34 L112 38 L8 38 Z" fill="#ffd84d"/>
+      <rect x="32" y="22" width="16" height="10" rx="2" fill="rgba(5,10,20,0.4)"/>
+      <rect x="52" y="20" width="18" height="10" rx="2" fill="rgba(5,10,20,0.4)"/>
+      <rect x="74" y="22" width="14" height="10" rx="2" fill="rgba(5,10,20,0.4)"/>
+      <circle cx="28" cy="38" r="5" fill="#050a14"/>
+      <circle cx="92" cy="38" r="5" fill="#050a14"/>
+      <circle cx="28" cy="38" r="2" fill="#ffd84d"/>
+      <circle cx="92" cy="38" r="2" fill="#ffd84d"/>
+      <rect x="108" y="30" width="8" height="4" rx="1" fill="#fbbf24" opacity=".9"/>
+    </svg>
+  </div>
+  <div class="nav-road-line"></div>
+</div>

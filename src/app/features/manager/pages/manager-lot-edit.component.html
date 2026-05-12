@@ -1,0 +1,151 @@
+<div class="dash-body">
+  <a routerLink="/manager/lots" class="back-link">← Back to lots</a>
+
+  <div class="loading" *ngIf="loading">Loading lot...</div>
+
+  <ng-container *ngIf="!loading && lot">
+    <div class="lot-head">
+      <div class="lot-head-main">
+        <span class="chip" [class.lime]="lot.isApproved" [class.amber]="!lot.isApproved">
+          {{ lot.isApproved ? '● APPROVED' : '○ PENDING APPROVAL' }}
+        </span>
+        <h1>{{ lot.name }}</h1>
+        <p class="lot-addr">{{ lot.address }}, {{ lot.city }}, {{ lot.state }} {{ lot.pincode }}</p>
+        <p class="lot-hours mono">
+          HOURS {{ lot.openTime }} — {{ lot.closeTime }}
+          <span class="sep">·</span>
+          GPS {{ lot.latitude.toFixed(4) }}, {{ lot.longitude.toFixed(4) }}
+        </p>
+      </div>
+
+      <div class="head-actions">
+        <button class="btn" (click)="openBulk()">+ Bulk add spots</button>
+        <a class="btn ghost" [routerLink]="['/manager/analytics', lot.id]">Analytics →</a>
+      </div>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-card lime">
+        <div class="label">Available</div>
+        <div class="val lime">{{ available }}</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Reserved</div>
+        <div class="val amber">{{ reserved }}</div>
+      </div>
+      <div class="stat-card rose">
+        <div class="label">Occupied</div>
+        <div class="val rose">{{ occupied }}</div>
+      </div>
+      <div class="stat-card cyan">
+        <div class="label">Total</div>
+        <div class="val cyan">{{ spots.length }}</div>
+      </div>
+    </div>
+
+    <!-- Per-floor spot grids (manager view: always show all, with actions) -->
+    <div class="floor-block" *ngFor="let f of floors">
+      <div class="floor-header">
+        <h3>{{ f === 0 ? 'Ground floor' : 'Level ' + f }}</h3>
+        <span class="mono count">{{ spotsFor(f).length }} SPOTS</span>
+      </div>
+
+      <div class="spot-grid">
+        <div *ngFor="let s of spotsFor(f)"
+             class="spot-cell"
+             [class]="'status-' + s.status + (s.isEVCharging ? ' ev' : '') + (s.isHandicapped ? ' handi' : '')"
+             [title]="'#' + s.spotNumber + ' · ' + typeLabel[s.spotType] + ' · ₹' + s.pricePerHour + '/hr'">
+          <span class="spot-num">{{ s.spotNumber }}</span>
+          <span class="spot-price mono">₹{{ s.pricePerHour }}</span>
+          <span class="spot-badge" *ngIf="s.isEVCharging">⚡</span>
+          <span class="spot-badge right" *ngIf="s.isHandicapped">♿</span>
+
+          <div class="spot-mgr-actions">
+            <button
+              *ngIf="s.status !== SpotStatus.Available"
+              class="mgr-btn"
+              title="Force release"
+              (click)="releaseSpot(s); $event.stopPropagation()">⟲</button>
+            <button
+              class="mgr-btn danger"
+              title="Delete spot"
+              (click)="deleteSpot(s); $event.stopPropagation()">×</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="empty" *ngIf="!spots.length">
+      <h3>No spots configured</h3>
+      <p>Bulk-create your first set of spots to activate this lot.</p>
+      <button class="btn" (click)="openBulk()">Bulk add spots</button>
+    </div>
+  </ng-container>
+</div>
+
+<!-- Bulk create modal -->
+<div class="modal-backdrop" *ngIf="showBulkForm" (click)="closeBulk()">
+  <div class="modal wide" (click)="$event.stopPropagation()">
+    <span class="chip accent">◉ BULK CREATE SPOTS</span>
+    <h2>Add many spots at once</h2>
+    <p class="sub">All spots share type, pricing, and features — good for adding a full floor in one go.</p>
+
+    <form [formGroup]="bulkForm" (ngSubmit)="saveBulk()" novalidate>
+      <div class="grid-3">
+        <div class="field">
+          <label>Count</label>
+          <input type="number" min="1" max="200" formControlName="count">
+        </div>
+        <div class="field">
+          <label>Starting number</label>
+          <input type="number" min="1" formControlName="startNumber">
+        </div>
+        <div class="field">
+          <label>Floor</label>
+          <input type="number" min="0" formControlName="floor">
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="field">
+          <label>Spot type</label>
+          <select formControlName="spotType">
+            <option *ngFor="let t of spotTypes" [ngValue]="t">{{ typeLabel[t] }}</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Vehicle type</label>
+          <select formControlName="vehicleType">
+            <option *ngFor="let t of vehicleTypes" [ngValue]="t">{{ vehicleTypeLabel[t] }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Price per hour (₹)</label>
+        <input type="number" min="1" formControlName="pricePerHour">
+      </div>
+
+      <div class="check-row">
+        <label class="check">
+          <input type="checkbox" formControlName="isEVCharging">
+          ⚡ EV charging enabled
+        </label>
+        <label class="check">
+          <input type="checkbox" formControlName="isHandicapped">
+          ♿ Accessible spots
+        </label>
+      </div>
+
+      <div class="error-banner" *ngIf="bulkError">{{ bulkError }}</div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn ghost" (click)="closeBulk()">Cancel</button>
+        <button type="submit" class="btn" [disabled]="bulkSaving">
+          <span *ngIf="!bulkSaving">Create {{ bulkForm.value.count }} spots</span>
+          <span *ngIf="bulkSaving" class="mono">CREATING...</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

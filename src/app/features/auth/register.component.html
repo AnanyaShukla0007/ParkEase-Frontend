@@ -1,0 +1,98 @@
+<div class="auth-shell">
+  <aside class="auth-art">
+    <a routerLink="/" class="auth-brand">
+      <span class="brand-mark">P◎</span>
+      <span class="brand-name">ParkEase</span>
+    </a>
+
+    <div class="art-stage">
+      <div class="mini-lot">
+        <div class="mini-row" *ngFor="let r of [].constructor(4); let rix = index">
+          <div class="mini-spot"
+               *ngFor="let s of [].constructor(8); let i = index"
+               [class.taken]="((i + rix) % 6) === 0"
+               [class.ev]="(i === 4 && rix === 1)"
+               [style.--d]="(i * 0.15 + rix * 0.05) + 's'"></div>
+        </div>
+      </div>
+      <div class="art-car">
+        <svg viewBox="0 0 120 48" fill="none">
+          <path d="M8 34 L18 34 C20 30, 24 24, 30 22 L50 20 C58 18, 72 18, 80 20 L98 24 C104 26, 108 30, 110 34 L112 34 L112 38 L8 38 Z" fill="#5eead4"/>
+          <circle cx="28" cy="38" r="5" fill="#050a14"/>
+          <circle cx="92" cy="38" r="5" fill="#050a14"/>
+          <circle cx="28" cy="38" r="2" fill="#5eead4"/>
+          <circle cx="92" cy="38" r="2" fill="#5eead4"/>
+        </svg>
+      </div>
+      <div class="art-road"></div>
+    </div>
+
+    <blockquote class="auth-quote">
+      <span class="display-ital">"Every city block has 40 parking spots. ParkEase makes sure you find the empty one."</span>
+      <cite>— how we got started</cite>
+    </blockquote>
+  </aside>
+
+  <main class="auth-form-wrap">
+    <div class="auth-form fade-up">
+      <span class="chip accent">◉ DRIVER REGISTRATION</span>
+
+      <h1>Create your <em class="display-ital">driver</em> account.</h1>
+      <p class="auth-sub">
+        Sign up to find and reserve parking. You can register your vehicles once you're inside.
+      </p>
+
+      <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+        <div class="field">
+          <label>Full name</label>
+          <input type="text" formControlName="fullName" placeholder="Tennyson K." autocomplete="name">
+          <span class="error" *ngIf="form.controls['fullName'].touched && form.controls['fullName'].invalid">
+            Please enter your full name.
+          </span>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label>Email</label>
+            <input type="email" formControlName="email" placeholder="you@park.ease" autocomplete="email">
+            <span class="error" *ngIf="form.controls['email'].touched && form.controls['email'].invalid">
+              Enter a valid email.
+            </span>
+          </div>
+
+          <div class="field">
+            <label>Phone</label>
+            <input type="tel" formControlName="phoneNumber" placeholder="+91 ..." autocomplete="tel">
+            <span class="error" *ngIf="form.controls['phoneNumber'].touched && form.controls['phoneNumber'].invalid">
+              Enter a valid phone number.
+            </span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Password</label>
+          <input type="password" formControlName="password" placeholder="Min 8 characters" autocomplete="new-password">
+          <span class="error" *ngIf="form.controls['password'].touched && form.controls['password'].invalid">
+            At least 8 characters.
+          </span>
+        </div>
+
+        <div class="error-banner" *ngIf="error">{{ error }}</div>
+
+        <button type="submit" class="btn auth-submit" [disabled]="loading">
+          <span *ngIf="!loading">Create account</span>
+          <span *ngIf="loading" class="mono">CREATING...</span>
+        </button>
+      </form>
+
+      <div class="other-cta">
+        <p class="auth-foot">
+          Already have an account? <a routerLink="/login">Sign in</a>
+        </p>
+        <p class="auth-foot manager-cta">
+          Lot manager? <a routerLink="/manager-apply">Apply for an account</a>
+        </p>
+      </div>
+    </div>
+  </main>
+</div>

@@ -1,0 +1,393 @@
+:host { display: block; }
+
+.auth-shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+}
+@media (max-width: 900px) {
+  .auth-shell { grid-template-columns: 1fr; }
+  .auth-art { display: none !important; }
+}
+
+/* ============ Left art panel ============ */
+.auth-art {
+  position: relative;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(255,216,77,.1), transparent 60%),
+    linear-gradient(180deg, var(--ink-800) 0%, #0b1426 100%);
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-right: 1px solid var(--border);
+}
+
+.auth-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  margin-bottom: 60px;
+}
+.auth-brand .brand-mark {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1.8rem;
+  color: var(--amber);
+}
+.auth-brand .brand-name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.4rem;
+  color: var(--paper);
+  letter-spacing: -0.02em;
+}
+
+.art-stage {
+  flex: 1;
+  position: relative;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: perspective(600px) rotateX(15deg);
+  transform-origin: center;
+}
+
+.mini-lot {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px;
+  background: rgba(10,18,34,.6);
+  border: 1px solid rgba(255,216,77,.15);
+  border-radius: 8px;
+  box-shadow: 0 30px 60px rgba(0,0,0,.5), 0 0 40px rgba(255,216,77,.1);
+}
+.mini-row { display: flex; gap: 6px; }
+.mini-spot {
+  width: 26px;
+  height: 44px;
+  background: rgba(198,255,77,.12);
+  border: 1px solid rgba(198,255,77,.4);
+  border-radius: 2px;
+  box-shadow: 0 0 8px rgba(198,255,77,.2);
+  animation: spot-pulse 4s ease-in-out infinite;
+  animation-delay: var(--d, 0s);
+  position: relative;
+}
+.mini-spot.taken {
+  background: rgba(255,93,115,.2);
+  border-color: rgba(255,93,115,.5);
+  box-shadow: 0 0 8px rgba(255,93,115,.3);
+  animation: none;
+}
+.mini-spot.taken::before {
+  content: '';
+  position: absolute; inset: 25% 28%;
+  background: var(--rose);
+  border-radius: 1px;
+  opacity: .6;
+}
+.mini-spot.ev {
+  background: rgba(94,234,212,.18);
+  border-color: rgba(94,234,212,.6);
+  box-shadow: 0 0 10px rgba(94,234,212,.3);
+}
+.mini-spot.ev::after {
+  content: '⚡';
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--cyan);
+  font-size: 9px;
+}
+
+@keyframes spot-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .5; }
+}
+
+.art-road {
+  position: absolute;
+  bottom: 60px;
+  left: -40px; right: -40px;
+  height: 60px;
+  background: linear-gradient(180deg, transparent, #0a1222);
+  border-top: 1px solid rgba(255,216,77,.2);
+}
+.art-road::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 0; right: 0;
+  height: 2px;
+  background: repeating-linear-gradient(90deg, var(--amber) 0 30px, transparent 30px 60px);
+  opacity: .6;
+  animation: lane-scroll 1.5s linear infinite;
+}
+@keyframes lane-scroll {
+  from { background-position-x: 0; }
+  to { background-position-x: -60px; }
+}
+
+.art-car {
+  position: absolute;
+  bottom: 70px;
+  left: -100px;
+  width: 120px;
+  animation: car-pass 8s linear infinite;
+  filter: drop-shadow(0 6px 10px rgba(0,0,0,.5));
+}
+@keyframes car-pass {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(calc(100% + 700px)); }
+}
+
+.auth-quote {
+  margin: 40px 0 0;
+  padding: 24px;
+  border-left: 2px solid var(--amber);
+  font-size: 1.05rem;
+  line-height: 1.55;
+  color: var(--ink-100);
+}
+.auth-quote cite {
+  display: block;
+  margin-top: 12px;
+  font-family: var(--font-mono);
+  font-style: normal;
+  font-size: .75rem;
+  letter-spacing: .14em;
+  color: var(--text-faint);
+  text-transform: uppercase;
+}
+
+/* ============ Right form panel ============ */
+.auth-form-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  min-height: 100vh;
+}
+.auth-form {
+  width: 100%;
+  max-width: 460px;
+}
+.auth-form h1 {
+  margin: 16px 0 10px;
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  line-height: 1.05;
+}
+.auth-form h1 em { color: var(--amber); }
+
+.auth-sub {
+  color: var(--text-dim);
+  margin-bottom: 32px;
+  line-height: 1.55;
+}
+.auth-sub strong {
+  color: var(--amber);
+  font-weight: 600;
+  font-family: var(--font-mono);
+  font-size: .9rem;
+  letter-spacing: .1em;
+}
+.link {
+  color: var(--cyan);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.hint {
+  font-family: var(--font-body);
+  font-size: .7rem;
+  letter-spacing: 0;
+  color: var(--text-faint);
+  text-transform: none;
+  margin-left: 6px;
+}
+
+.auth-submit {
+  width: 100%;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.error-banner {
+  margin: 16px 0;
+  padding: 12px 14px;
+  border: 1px solid rgba(255,93,115,.4);
+  background: rgba(255,93,115,.08);
+  color: var(--rose);
+  border-radius: var(--r-sm);
+  font-size: .9rem;
+  font-family: var(--font-mono);
+}
+
+.auth-foot {
+  margin-top: 28px;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: .95rem;
+}
+.auth-foot a {
+  color: var(--amber);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  margin-left: 4px;
+}
+
+/* ============ Role picker ============ */
+.role-picker {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 28px 0;
+}
+.role-picker-3 {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+@media (max-width: 700px) { .role-picker-3 { grid-template-columns: 1fr; } }
+@media (max-width: 500px) { .role-picker { grid-template-columns: 1fr; } }
+
+.role-card {
+  appearance: none;
+  background: linear-gradient(180deg, rgba(255,216,77,.05), rgba(255,255,255,0));
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 24px 20px;
+  text-align: left;
+  cursor: pointer;
+  color: var(--text);
+  transition: transform .3s var(--ease-spring), border-color .3s, background .3s;
+  position: relative;
+  overflow: hidden;
+  color: var(--amber);
+}
+.role-card.cyan { color: var(--cyan); background: linear-gradient(180deg, rgba(94,234,212,.05), rgba(255,255,255,0)); }
+.role-card.rose { color: var(--rose); background: linear-gradient(180deg, rgba(255,93,115,.05), rgba(255,255,255,0)); }
+.role-card:hover {
+  transform: translateY(-3px);
+  border-color: currentColor;
+  background: rgba(255,216,77,.06);
+}
+.role-card.cyan:hover { background: rgba(94,234,212,.06); }
+.role-card.rose:hover { background: rgba(255,93,115,.06); }
+
+.role-icon {
+  width: 36px; height: 36px;
+  margin-bottom: 16px;
+}
+.role-card h4 {
+  color: var(--paper);
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 0 0 8px;
+}
+.role-card p {
+  color: var(--text-dim);
+  font-size: .9rem;
+  margin: 0;
+  line-height: 1.5;
+}
+.role-go {
+  position: absolute;
+  top: 22px; right: 22px;
+  font-size: 1.4rem;
+  transition: transform .3s var(--ease-spring);
+}
+.role-card:hover .role-go { transform: translateX(4px); }
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+.form-actions .btn { flex: 1; justify-content: center; }
+
+/* ===== additions for new flows ===== */
+.google-auth {
+  display: flex;
+  justify-content: center;
+  margin-top: 18px;
+}
+
+.other-cta {
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.manager-cta {
+  margin: 0 !important;
+  font-size: 0.92rem;
+  text-align: center;
+}
+.manager-cta a {
+  color: var(--cyan);
+}
+.admin-hint {
+  text-align: center;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  color: var(--text-faint);
+  margin: 12px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.success-screen {
+  text-align: center;
+  padding: 20px 0;
+}
+.success-screen .success-icon {
+  width: 72px; height: 72px;
+  margin: 0 auto 24px;
+  background: var(--lime);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2.4rem;
+  color: var(--ink-900);
+  font-weight: 700;
+  animation: success-pop .5s var(--ease-spring);
+}
+.success-screen h1 em { color: var(--lime) !important; }
+.success-screen p { margin-bottom: 28px; }
+@keyframes success-pop {
+  from { transform: scale(0); }
+  to { transform: scale(1); }
+}
+
+/* ===== mobile fixes for auth pages ===== */
+@media (max-width: 720px) {
+  .auth-form-wrap {
+    padding: 24px 18px;
+    min-height: auto;
+  }
+  .auth-form h1 {
+    font-size: 1.7rem !important;
+  }
+  .auth-form .grid-2 {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .auth-shell {
+    min-height: 100dvh;
+  }
+}
+
+/* Make form controls always have visible text in dropdowns */
+.field select option {
+  background: var(--ink-800);
+  color: var(--paper);
+}
+.field select {
+  color: var(--paper) !important;
+}
+.right {
+  text-align: right;
+  margin: 8px 0 12px;
+}

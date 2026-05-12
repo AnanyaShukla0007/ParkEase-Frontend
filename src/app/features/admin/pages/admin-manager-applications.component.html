@@ -1,0 +1,124 @@
+<div class="dash-body">
+  <div class="dash-hero">
+    <div>
+      <div class="hello">◉ MANAGER APPLICATIONS</div>
+      <h1>Onboard <em>operators</em></h1>
+      <p class="sub">
+        Review who wants to list a lot on ParkEase. Approving an application
+        auto-generates manager credentials tied to the lot you're authorising.
+      </p>
+    </div>
+  </div>
+
+  <div class="filter-bar">
+    <button class="filter-btn" [class.active]="filter === 'PENDING'" (click)="filter = 'PENDING'">
+      Pending ({{ pendingCount }})
+    </button>
+    <button class="filter-btn" [class.active]="filter === 'APPROVED'" (click)="filter = 'APPROVED'">Approved</button>
+    <button class="filter-btn" [class.active]="filter === 'REJECTED'" (click)="filter = 'REJECTED'">Rejected</button>
+    <button class="filter-btn" [class.active]="filter === 'ALL'" (click)="filter = 'ALL'">All</button>
+  </div>
+
+  <div class="loading" *ngIf="loading">Loading applications...</div>
+
+  <div class="approval-list" *ngIf="!loading">
+    <article class="approval-card"
+             *ngFor="let a of filtered"
+             [class.pending]="a.status === 'PENDING'">
+      <div class="ac-head">
+        <div>
+          <span class="chip" [class]="statusClass(a.status)">{{ a.status }}</span>
+          <span class="chip mono">#{{ a.id }}</span>
+        </div>
+        <span class="ac-date mono">{{ a.createdAt | date:'MMM d, yyyy' }}</span>
+      </div>
+
+      <h3 class="ac-name">{{ a.fullName }}</h3>
+      <p class="ac-desc">"{{ a.message || 'No additional notes.' }}"</p>
+
+      <div class="ac-details">
+        <div class="ac-det">
+          <div class="ac-label mono">EMAIL</div>
+          <div class="ac-val">{{ a.email }}</div>
+        </div>
+        <div class="ac-det">
+          <div class="ac-label mono">PHONE</div>
+          <div class="ac-val mono">{{ a.phoneNumber }}</div>
+        </div>
+        <div class="ac-det">
+          <div class="ac-label mono">PROPOSED LOT</div>
+          <div class="ac-val">{{ a.proposedLotName }}</div>
+        </div>
+        <div class="ac-det">
+          <div class="ac-label mono">CITY</div>
+          <div class="ac-val">{{ a.proposedCity }}</div>
+        </div>
+        <div class="ac-det">
+          <div class="ac-label mono">ADDRESS</div>
+          <div class="ac-val">{{ a.proposedAddress }}</div>
+        </div>
+        <div class="ac-det" *ngIf="a.generatedUsername">
+          <div class="ac-label mono">USERNAME</div>
+          <div class="ac-val mono">{{ a.generatedUsername }}</div>
+        </div>
+        <div class="ac-det" *ngIf="a.rejectReason">
+          <div class="ac-label mono">REJECT REASON</div>
+          <div class="ac-val">{{ a.rejectReason }}</div>
+        </div>
+      </div>
+
+      <div class="ac-actions" *ngIf="a.status === 'PENDING'">
+        <button class="btn"
+                [disabled]="actionId === a.id"
+                (click)="approve(a)">
+          ✓ Approve & generate credentials
+        </button>
+        <button class="btn ghost"
+                [disabled]="actionId === a.id"
+                (click)="reject(a)">
+          ✕ Reject
+        </button>
+      </div>
+    </article>
+
+    <div class="empty" *ngIf="!filtered.length">
+      <h3 *ngIf="filter === 'PENDING'">All clear, boss.</h3>
+      <h3 *ngIf="filter !== 'PENDING'">No applications in this view</h3>
+      <p>New manager applications will appear here as they come in.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Credentials modal — shown once after a successful approval -->
+<div class="modal-backdrop" *ngIf="credentials" (click)="closeCredentials()">
+  <div class="modal creds-modal" (click)="$event.stopPropagation()">
+    <span class="chip lime">◉ CREDENTIALS GENERATED</span>
+    <h2>Manager account ready.</h2>
+    <p class="sub">
+      Share these once with the manager. We won't show them again — admins can
+      reset the password if needed from the Users page.
+    </p>
+
+    <div class="creds-block">
+      <div class="creds-row">
+        <span class="creds-label mono">USERNAME</span>
+        <code class="creds-value">{{ credentials.username }}</code>
+      </div>
+      <div class="creds-row">
+        <span class="creds-label mono">PASSWORD</span>
+        <code class="creds-value">{{ credentials.password }}</code>
+      </div>
+      <div class="creds-row">
+        <span class="creds-label mono">EMAIL</span>
+        <code class="creds-value">{{ credentials.email }}</code>
+      </div>
+    </div>
+
+    <p class="creds-note">{{ credentials.message }}</p>
+
+    <div class="modal-actions">
+      <button class="btn ghost" (click)="closeCredentials()">Close</button>
+      <button class="btn" (click)="copyCredentials()">Copy all</button>
+    </div>
+  </div>
+</div>

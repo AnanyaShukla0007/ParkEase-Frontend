@@ -1,0 +1,193 @@
+:host { display: block; }
+
+.filter-bar {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+.filter-btn {
+  appearance: none;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: .75rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all .2s;
+}
+.filter-btn:hover { color: var(--paper); border-color: var(--text-dim); }
+.filter-btn.active {
+  background: var(--amber);
+  color: var(--ink-900);
+  border-color: var(--amber);
+  font-weight: 600;
+}
+
+.booking-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.booking-card {
+  background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,0));
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 20px 24px;
+  transition: border-color .2s;
+}
+.booking-card:hover { border-color: var(--border-strong); }
+
+.bc-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.bc-head .chip { margin-right: 4px; }
+
+.bc-amount {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.bc-amount-label {
+  font-size: .7rem;
+  letter-spacing: .18em;
+  color: var(--text-faint);
+}
+.bc-amount-val {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: var(--amber);
+}
+
+.bc-body {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 20px;
+  padding: 16px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+.bc-label {
+  font-size: .65rem;
+  color: var(--text-faint);
+  letter-spacing: .2em;
+  margin-bottom: 4px;
+}
+.bc-val {
+  color: var(--paper);
+  font-size: .95rem;
+  font-weight: 500;
+}
+
+.bc-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* chip color variants for statuses */
+.chip.cyan { color: var(--cyan); border-color: rgba(94,234,212,.35); background: rgba(94,234,212,.06); }
+.chip.lime { color: var(--lime); border-color: rgba(198,255,77,.35); background: rgba(198,255,77,.06); }
+.chip.amber { color: var(--amber); border-color: rgba(255,216,77,.35); background: rgba(255,216,77,.06); }
+.chip.rose { color: var(--rose); border-color: rgba(255,93,115,.35); background: rgba(255,93,115,.08); }
+
+.receipt-backdrop {
+  align-items: center;
+  justify-content: center;
+}
+
+.receipt-modal {
+  width: min(560px, calc(100vw - 32px));
+}
+
+.receipt-modal h2 {
+  margin: 12px 0 4px;
+}
+
+.receipt-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 22px 0;
+}
+
+.receipt-grid div {
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 12px;
+  background: rgba(255,255,255,.03);
+}
+
+.receipt-grid span {
+  display: block;
+  color: var(--text-faint);
+  font-family: var(--font-mono);
+  font-size: .65rem;
+  letter-spacing: .16em;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.receipt-grid strong {
+  color: var(--paper);
+  font-size: .95rem;
+}
+
+@media (max-width: 560px) {
+  .receipt-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media print {
+  :host {
+    color: #111;
+  }
+
+  .dash-body,
+  .no-print {
+    display: none !important;
+  }
+
+  .receipt-backdrop {
+    display: block !important;
+    position: static !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    background: #fff !important;
+  }
+
+  .receipt-modal {
+    display: block !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 24px !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    background: #fff !important;
+    color: #111 !important;
+  }
+
+  .receipt-modal *,
+  .receipt-grid strong {
+    color: #111 !important;
+  }
+
+  .receipt-grid div {
+    border-color: #ddd !important;
+    background: #fff !important;
+  }
+}
