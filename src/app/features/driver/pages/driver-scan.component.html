@@ -1,0 +1,57 @@
+<div class="dash-body">
+  <div class="dash-hero">
+    <div>
+      <div class="hello">◉ MOBILE PASS SCANNER</div>
+      <h1>Scan to <em>check-in/out</em></h1>
+      <p class="sub">
+        Point your camera at the ParkEase QR pass at the lot entry. We'll
+        check you in on the first scan and check you out on the next one.
+      </p>
+    </div>
+  </div>
+
+  <div class="scan-stage" *ngIf="device.isMobile">
+    <div class="scanner">
+      <video #video playsinline muted></video>
+      <div class="scanner-frame">
+        <div class="scanner-corner tl"></div>
+        <div class="scanner-corner tr"></div>
+        <div class="scanner-corner bl"></div>
+        <div class="scanner-corner br"></div>
+        <div class="scanner-line"></div>
+      </div>
+      <div class="scan-status mono">{{ status }}</div>
+    </div>
+
+    <div class="scan-fallback" *ngIf="!scanning">
+      <p class="sub">Camera unavailable? Paste your booking pass code:</p>
+      <div class="manual-row">
+        <input [(ngModel)]="manualInput" placeholder="Paste pass code..." class="mono">
+        <button class="btn" (click)="decodeManual()" [disabled]="!manualInput">Decode</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="scan-stage" *ngIf="!device.isMobile">
+    <div class="desktop-note">
+      <h3>Open ParkEase on your phone</h3>
+      <p>The pass scanner uses your phone camera. Open this URL on your phone:</p>
+      <p class="mono url">{{ '/driver/scan' }}</p>
+      <p class="sub">For testing on desktop, paste a pass code:</p>
+      <div class="manual-row">
+        <input [(ngModel)]="manualInput" placeholder="Paste pass code..." class="mono">
+        <button class="btn" (click)="decodeManual()" [disabled]="!manualInput">Decode</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="scan-result" *ngIf="booking">
+    <div class="result-card">
+      <span class="chip lime" *ngIf="!busy && status.startsWith('✓')">✓ DONE</span>
+      <span class="chip amber" *ngIf="busy">PROCESSING</span>
+      <h3>Booking #{{ booking.id }} · {{ booking.vehiclePlate }}</h3>
+      <p class="status-line">{{ status }}</p>
+      <button class="btn" (click)="done()" *ngIf="!busy">Back to bookings</button>
+    </div>
+  </div>
+</div>

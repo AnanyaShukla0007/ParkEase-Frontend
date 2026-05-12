@@ -1,0 +1,64 @@
+<div class="dash-body">
+  <div class="dash-hero">
+    <div>
+      <div class="hello">◉ BROADCAST NOTIFICATIONS</div>
+      <h1>Send <em>platform alerts.</em></h1>
+      <p class="sub">Broadcast in-app, email, or SMS messages to all users, drivers only, or managers only.</p>
+    </div>
+  </div>
+
+  <div class="notif-form-wrap">
+    <form [formGroup]="form" (ngSubmit)="send()" novalidate class="notif-form">
+      <div class="form-row-2">
+        <div class="field">
+          <label>Target group</label>
+          <select formControlName="targetGroup">
+            <option value="ALL">All users</option>
+            <option value="DRIVER">Drivers only</option>
+            <option value="MANAGER">Managers only</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Channel</label>
+          <select formControlName="channel">
+            <option value="APP">In-app</option>
+            <option value="EMAIL">Email</option>
+            <option value="SMS">SMS</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Notification title</label>
+        <input type="text" formControlName="title" placeholder="e.g. Platform maintenance on Sunday 2–4 AM">
+        <span class="error" *ngIf="form.controls['title'].touched && form.controls['title'].invalid">Title is required.</span>
+      </div>
+
+      <div class="field">
+        <label>Message body <span class="hint">max 500 characters</span></label>
+        <textarea formControlName="message" rows="5" placeholder="Write your announcement here…"></textarea>
+        <span class="error" *ngIf="form.controls['message'].touched && form.controls['message'].invalid">Message is required.</span>
+        <div class="char-count mono">{{ form.controls['message'].value?.length || 0 }} / 500</div>
+      </div>
+
+      <div class="success-banner" *ngIf="success">✓ {{ success }}</div>
+      <div class="error-banner" *ngIf="error">{{ error }}</div>
+
+      <button type="submit" class="btn" [disabled]="sending">
+        <span *ngIf="!sending">📢 Broadcast now</span>
+        <span *ngIf="sending" class="mono">SENDING...</span>
+      </button>
+    </form>
+
+    <div class="notif-tips">
+      <h3>Notification guidelines</h3>
+      <ul>
+        <li><strong>In-app</strong> — instant, no cost, delivered via SignalR when user is online.</li>
+        <li><strong>Email</strong> — queued via MailKit/SMTP, arrives within minutes.</li>
+        <li><strong>SMS</strong> — sent via Twilio, may incur costs. Use sparingly.</li>
+        <li>Keep messages concise and actionable.</li>
+        <li>Avoid sending more than 2–3 broadcast notifications per day.</li>
+      </ul>
+    </div>
+  </div>
+</div>

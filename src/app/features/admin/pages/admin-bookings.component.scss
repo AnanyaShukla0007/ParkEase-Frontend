@@ -1,0 +1,25 @@
+:host { display: block; }
+.toolbar { display: flex; justify-content: space-between; gap: 16px; margin-top: 32px; flex-wrap: wrap; align-items: center; }
+.filter-bar { display: flex; gap: 8px; flex-wrap: wrap; }
+.filter-btn { padding: 8px 14px; border-radius: 6px; border: 1px solid var(--border); background: transparent; color: var(--text-dim); cursor: pointer; font-size: .85rem; transition: all .2s; }
+.filter-btn:hover { border-color: var(--amber); color: var(--amber); }
+.filter-btn.active { background: rgba(255,216,77,.1); border-color: var(--amber); color: var(--amber); }
+.search { background: rgba(255,255,255,.04); border: 1px solid var(--border); border-radius: 6px; color: var(--text); padding: 8px 12px; font-size: .88rem; outline: none; min-width: 260px; }
+.search:focus { border-color: var(--amber); }
+.booking-table { margin-top: 24px; }
+.bt-head { display: grid; grid-template-columns: 80px 60px 100px 90px 1.2fr 90px 100px 120px; gap: 10px; padding: 10px 16px; font-size: .62rem; letter-spacing: .14em; color: var(--text-faint); border-bottom: 1px solid var(--border); }
+.bt-row { display: grid; grid-template-columns: 80px 60px 100px 90px 1.2fr 90px 100px 120px; gap: 10px; padding: 13px 16px; border-bottom: 1px solid rgba(255,255,255,.04); align-items: center; transition: background .15s; }
+.bt-row:hover { background: rgba(255,255,255,.02); }
+.bt-id { color: var(--paper); font-size: .85rem; }
+.bt-type { font-size: .62rem; letter-spacing: .1em; color: var(--text-faint); margin-top: 2px; }
+.bt-plate { color: var(--paper); font-weight: 600; font-family: var(--font-mono); font-size: .88rem; }
+.bt-time { font-size: .76rem; color: var(--text-dim); }
+.bt-time .faint { color: var(--text-faint); font-size: .7rem; margin-top: 2px; }
+.bt-amt { color: var(--amber); font-family: var(--font-display); font-weight: 700; }
+.bt-actions { display: flex; flex-direction: column; gap: 4px; align-items: flex-end; }
+.faint { color: var(--text-faint); font-size: .75rem; }
+.ta-r { text-align: right; }
+.empty { padding: 60px 0; text-align: center; color: var(--text-dim); }
+.empty h3 { color: var(--paper); margin-bottom: 8px; }
+.loading { padding: 60px 0; text-align: center; color: var(--text-dim); font-family: var(--font-mono); }
+.error-banner { margin-top: 16px; padding: 12px 14px; border: 1px solid rgba(255,93,115,.4); background: rgba(255,93,115,.08); color: var(--rose); border-radius: var(--r-sm); font-size: .9rem; }

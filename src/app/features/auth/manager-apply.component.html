@@ -1,0 +1,107 @@
+<div class="auth-shell">
+  <aside class="auth-art">
+    <a routerLink="/" class="auth-brand">
+      <span class="brand-mark">P◎</span>
+      <span class="brand-name">ParkEase</span>
+    </a>
+
+    <div class="art-stage">
+      <div class="mini-lot">
+        <div class="mini-row" *ngFor="let r of [].constructor(4); let rix = index">
+          <div class="mini-spot"
+               *ngFor="let s of [].constructor(8); let i = index"
+               [class.taken]="((i + rix) % 6) === 0"
+               [class.ev]="(i === 4 && rix === 1)"
+               [style.--d]="(i * 0.15 + rix * 0.05) + 's'"></div>
+        </div>
+      </div>
+      <div class="art-road"></div>
+    </div>
+
+    <blockquote class="auth-quote">
+      <span class="display-ital">"Tell us about your lot. We'll set up your account so you can start booking spots within hours."</span>
+      <cite>— operator onboarding</cite>
+    </blockquote>
+  </aside>
+
+  <main class="auth-form-wrap">
+    <div class="auth-form fade-up">
+
+      <ng-container *ngIf="!submitted">
+        <span class="chip accent">◉ LOT MANAGER APPLICATION</span>
+
+        <h1>Operate a <em class="display-ital">lot</em>?</h1>
+        <p class="auth-sub">
+          Tell us about your facility. ParkEase admins review every application —
+          if approved, we'll generate your manager credentials and email them to you.
+        </p>
+
+        <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+          <div class="field">
+            <label>Your full name</label>
+            <input type="text" formControlName="fullName" placeholder="Operator name">
+          </div>
+
+          <div class="grid-2">
+            <div class="field">
+              <label>Email</label>
+              <input type="email" formControlName="email" placeholder="you@park.ease">
+            </div>
+            <div class="field">
+              <label>Phone</label>
+              <input type="tel" formControlName="phoneNumber" placeholder="+91 ...">
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Proposed lot name</label>
+            <input type="text" formControlName="proposedLotName" placeholder="Krishna Janmabhoomi Parking">
+          </div>
+
+          <div class="grid-2">
+            <div class="field">
+              <label>Address</label>
+              <input type="text" formControlName="proposedAddress" placeholder="42 Station Road">
+            </div>
+            <div class="field">
+              <label>City</label>
+              <input type="text" formControlName="proposedCity" placeholder="Mathura">
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Anything else? <span class="hint">optional</span></label>
+            <textarea formControlName="message" rows="3"
+                      placeholder="Total spots, opening hours, special features..."></textarea>
+          </div>
+
+          <div class="error-banner" *ngIf="error">{{ error }}</div>
+
+          <button type="submit" class="btn auth-submit" [disabled]="loading">
+            <span *ngIf="!loading">Submit application</span>
+            <span *ngIf="loading" class="mono">SUBMITTING...</span>
+          </button>
+        </form>
+
+        <p class="auth-foot">
+          Driver instead? <a routerLink="/register">Register here</a>
+          · Already have credentials? <a routerLink="/login">Sign in</a>
+        </p>
+      </ng-container>
+
+      <ng-container *ngIf="submitted">
+        <div class="success-screen">
+          <div class="success-icon">✓</div>
+          <h1>Application <em class="display-ital">submitted.</em></h1>
+          <p class="auth-sub">
+            Thanks. ParkEase admins will review your application and email
+            credentials to <strong>{{ form.value.email }}</strong> once approved.
+            Your username will be tied to the lot you operate.
+          </p>
+          <button class="btn" (click)="goLogin()">Back to sign in</button>
+        </div>
+      </ng-container>
+
+    </div>
+  </main>
+</div>

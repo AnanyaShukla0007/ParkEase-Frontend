@@ -1,0 +1,135 @@
+<div class="dash-body">
+  <a routerLink="/manager/lots" class="back-link">← Back to lots</a>
+
+  <div class="loading" *ngIf="loading">Crunching numbers...</div>
+
+  <ng-container *ngIf="!loading">
+    <div class="dash-hero">
+      <div>
+        <div class="hello">◉ ANALYTICS · LOT #{{ lotId }}</div>
+
+        <h1 *ngIf="lot">
+          {{ lot.name }}<br />
+          <em>analytics</em>
+        </h1>
+
+        <h1 *ngIf="!lot">
+          Lot <em>analytics</em>
+        </h1>
+
+        <p class="sub">
+          Occupancy trends, peak hours, spot-type utilisation, and revenue over
+          the last 7 days.
+        </p>
+      </div>
+      <button class="btn" (click)="downloadDailyReport()">Download daily report</button>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="label">Live occupancy</div>
+        <div class="val amber">{{ occupancyRate }}%</div>
+        <div class="hint">Right now</div>
+      </div>
+
+      <div class="stat-card cyan">
+        <div class="label">Avg duration</div>
+        <div class="val cyan">{{ (avgMinutes / 60).toFixed(1) }}h</div>
+        <div class="hint">{{ avgMinutes }} min per session</div>
+      </div>
+
+      <div class="stat-card lime">
+        <div class="label">Revenue · 7d</div>
+        <div class="val lime">₹{{ totalRevenue | number:'1.0-0' }}</div>
+        <div class="hint">Last seven days</div>
+      </div>
+
+      <div class="stat-card rose">
+        <div class="label">Peak hours</div>
+        <div class="val rose">{{ peakHours.length }}</div>
+        <div class="hint">{{ peakHourLabel() }}</div>
+      </div>
+    </div>
+
+    <div class="dash-section">
+      <div class="section-bar">
+        <h2>Occupancy by <em>hour</em></h2>
+        <span class="count mono">24 HRS</span>
+      </div>
+
+      <div class="chart-panel">
+        <div class="hour-bars">
+          <div class="hour-bar" *ngFor="let d of byHour">
+            <div class="hb-col">
+              <div
+                class="hb-fill"
+                [style.height.%]="(d.value / maxHour) * 100"
+              ></div>
+            </div>
+
+            <div class="hb-label mono">{{ d.label }}</div>
+          </div>
+        </div>
+
+        <div class="chart-axis">
+          <span>00</span><span>06</span><span>12</span><span>18</span><span>23</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="dash-section" *ngIf="byDay.length">
+      <div class="section-bar">
+        <h2>Revenue by <em>day</em></h2>
+        <span class="count mono">LAST {{ byDay.length }} DAYS</span>
+      </div>
+
+      <div class="chart-panel">
+        <div class="day-bars">
+          <div class="day-bar" *ngFor="let d of byDay">
+            <div class="db-val mono">₹{{ d.value | number:'1.0-0' }}</div>
+
+            <div class="db-col">
+              <div
+                class="db-fill"
+                [style.height.%]="(d.value / maxDay) * 100"
+              ></div>
+            </div>
+
+            <div class="db-label mono">{{ d.label }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dash-section" *ngIf="bySpotType.length">
+      <div class="section-bar">
+        <h2>Spot-type <em>utilisation</em></h2>
+      </div>
+
+      <div class="chart-panel">
+        <div class="type-rows">
+          <div class="type-row" *ngFor="let d of bySpotType">
+            <div class="tr-label">{{ d.label }}</div>
+
+            <div class="tr-track">
+              <div
+                class="tr-fill"
+                [style.width.%]="(d.value / maxType) * 100"
+              ></div>
+            </div>
+
+            <div class="tr-val mono">{{ d.value }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="empty" *ngIf="isEmpty">
+      <h3>Not enough data yet</h3>
+      <p>
+        Analytics populate as drivers book, check in, and check out. Come back
+        after your first bookings.
+      </p>
+    </div>
+  </ng-container>
+</div>

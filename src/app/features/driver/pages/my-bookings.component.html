@@ -1,0 +1,122 @@
+<div class="dash-body">
+  <div class="dash-hero">
+    <div>
+      <div class="hello">◉ BOOKING HISTORY</div>
+      <h1>Your <em>reservations</em></h1>
+      <p class="sub">Upcoming, active, and past sessions. Check in, check out, or cancel from here.</p>
+    </div>
+  </div>
+
+  <div class="filter-bar">
+    <button class="filter-btn" [class.active]="filter === 'UPCOMING'" (click)="filter = 'UPCOMING'">Upcoming</button>
+    <button class="filter-btn" [class.active]="filter === 'ACTIVE'" (click)="filter = 'ACTIVE'">Active</button>
+    <button class="filter-btn" [class.active]="filter === 'PAST'" (click)="filter = 'PAST'">Past</button>
+    <button class="filter-btn" [class.active]="filter === 'ALL'" (click)="filter = 'ALL'">All</button>
+  </div>
+
+  <div class="loading" *ngIf="loading">Loading bookings...</div>
+  <div class="error-banner" *ngIf="actionError">{{ actionError }}</div>
+
+  <div class="booking-list" *ngIf="!loading">
+    <article class="booking-card" *ngFor="let b of filtered">
+      <div class="bc-head">
+        <div>
+          <span class="chip" [class]="statusClass(b.status)">{{ statusLabel[b.status] }}</span>
+          <span class="chip mono">#{{ b.id }}</span>
+          <span class="chip" *ngIf="b.bookingType === BookingType.PreBooking">PRE-BOOK</span>
+          <span class="chip" *ngIf="b.bookingType === BookingType.WalkIn">WALK-IN</span>
+          <span class="chip mono" [class.amber]="b.paymentState === PaymentState.Pending"
+                [class.lime]="b.paymentState === PaymentState.Paid">
+            {{ paymentLabel(b.paymentState) }}
+          </span>
+        </div>
+        <div class="bc-amount">
+          <span class="bc-amount-label mono">{{ b.status === BookingStatus.Completed ? 'FINAL' : 'EST.' }}</span>
+          <span class="bc-amount-val">₹{{ b.finalAmount ?? b.estimatedAmount }}</span>
+        </div>
+      </div>
+
+      <div class="bc-body">
+        <div class="bc-col">
+          <div class="bc-label mono">LOT · SPOT</div>
+          <div class="bc-val">Lot #{{ b.lotId }} · Spot #{{ b.spotId }}</div>
+        </div>
+        <div class="bc-col">
+          <div class="bc-label mono">VEHICLE</div>
+          <div class="bc-val">{{ b.vehiclePlate }}</div>
+        </div>
+        <div class="bc-col">
+          <div class="bc-label mono">{{ startLabel(b) }}</div>
+          <div class="bc-val">{{ displayStartTime(b) | date:'MMM d, HH:mm' }}</div>
+          <div class="bc-label mono" *ngIf="lateText(b)">{{ lateText(b) }}</div>
+        </div>
+        <div class="bc-col">
+          <div class="bc-label mono">{{ endLabel(b) }}</div>
+          <div class="bc-val">{{ displayEndTime(b) | date:'MMM d, HH:mm' }}</div>
+        </div>
+      </div>
+
+      <div class="bc-actions" *ngIf="canPay(b) || canEdit(b) || canCheckIn(b) || canCheckOut(b) || canCancel(b)">
+        <button *ngIf="canPay(b)" class="btn sm" (click)="payNow(b)" [disabled]="paymentLoadingId === b.id">
+          {{ paymentLoadingId === b.id ? '...' : 'Pay now' }}
+        </button>
+        <button *ngIf="canCheckIn(b)" class="btn cyan sm" (click)="checkIn(b)" [disabled]="actionLoadingId === b.id">
+          {{ actionLoadingId === b.id ? '...' : 'Check in' }}
+        </button>
+        <button *ngIf="canEdit(b)" class="btn ghost sm" (click)="editReservation(b)" [disabled]="actionLoadingId === b.id">
+          Edit time
+        </button>
+        <button *ngIf="canCheckOut(b)" class="btn sm" (click)="checkOut(b)" [disabled]="actionLoadingId === b.id">
+          {{ actionLoadingId === b.id ? '...' : 'Check out' }}
+        </button>
+        <button *ngIf="canCancel(b)" class="btn danger sm" (click)="cancel(b)" [disabled]="actionLoadingId === b.id">
+          Cancel
+        </button>
+      </div>
+
+      <!-- QR park-pass — appears on mobile for reserved/active bookings.
+           Scanning at the lot entry auto checks-in (first scan) or
+           auto checks-out (second scan). -->
+      <app-booking-qr
+        *ngIf="canCheckIn(b) || canCheckOut(b)"
+        [booking]="b"
+        [scanHint]="canCheckIn(b) ? 'SCAN AT ENTRY → AUTO CHECK-IN' : 'SCAN AT EXIT → AUTO CHECK-OUT'">
+      </app-booking-qr>
+    </article>
+
+    <div class="empty" *ngIf="filtered.length === 0">
+      <h3>Nothing here yet</h3>
+      <p *ngIf="filter === 'UPCOMING'">No upcoming reservations — find a spot and book one.</p>
+      <p *ngIf="filter === 'ACTIVE'">No active sessions right now.</p>
+      <p *ngIf="filter === 'PAST'">Your past bookings will show up here after check-out or cancellation.</p>
+      <p *ngIf="filter === 'ALL'">Once you create a booking, it'll appear here.</p>
+      <button class="btn" routerLink="/driver/nearby">Find a spot</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop receipt-backdrop" *ngIf="receipt" (click)="closeReceipt()">
+  <div class="modal receipt-modal" (click)="$event.stopPropagation()">
+    <span class="chip accent">RECEIPT READY</span>
+    <h2>ParkEase receipt</h2>
+    <p class="sub mono">{{ receipt.receiptNumber }}</p>
+
+    <div class="receipt-grid">
+      <div><span>Booking</span><strong>#{{ receipt.bookingId }}</strong></div>
+      <div><span>Vehicle</span><strong>{{ receipt.vehiclePlate }}</strong></div>
+      <div><span>Lot</span><strong>#{{ receipt.lotId }}</strong></div>
+      <div><span>Spot</span><strong>#{{ receipt.spotId }}</strong></div>
+      <div><span>Check in</span><strong>{{ receipt.checkInTimeUtc | date:'MMM d, HH:mm' }}</strong></div>
+      <div><span>Check out</span><strong>{{ receipt.checkOutTimeUtc | date:'MMM d, HH:mm' }}</strong></div>
+      <div><span>Duration</span><strong>{{ receiptDuration(receipt) }}</strong></div>
+      <div><span>Billable</span><strong>{{ billableDuration(receipt) }}</strong></div>
+      <div *ngIf="receipt.lateFee && receipt.lateFee > 0"><span>Late fee</span><strong>Rs. {{ receipt.lateFee | number:'1.0-2' }}</strong></div>
+      <div><span>Total</span><strong>Rs. {{ receipt.finalAmount | number:'1.0-2' }}</strong></div>
+    </div>
+
+    <div class="modal-actions no-print">
+      <button class="btn ghost" (click)="closeReceipt()">Close</button>
+      <button class="btn" (click)="printReceipt()">Print</button>
+    </div>
+  </div>
+</div>

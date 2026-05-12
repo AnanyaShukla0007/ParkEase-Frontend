@@ -1,0 +1,147 @@
+<div class="dash-body">
+  <div class="dash-hero">
+    <div>
+      <div class="hello">◉ LOT PORTFOLIO</div>
+      <h1>Your <em>lots</em></h1>
+      <p class="sub">Register new parking facilities, edit existing ones, or drill into per-lot analytics.</p>
+    </div>
+    <button class="btn" (click)="open()">+ New lot</button>
+  </div>
+
+  <div class="loading" *ngIf="loading">Loading your lots...</div>
+
+  <div class="lot-grid" *ngIf="!loading && lots.length">
+    <article class="lot-card" *ngFor="let lot of lots">
+      <div class="lot-card-head">
+        <span class="chip sm" [class.lime]="lot.isApproved" [class.amber]="!lot.isApproved">
+          {{ lot.isApproved ? '● APPROVED' : '○ PENDING' }}
+        </span>
+        <span class="chip sm" [class.lime]="lot.isOpen" [class.rose]="!lot.isOpen">
+          {{ lot.isOpen ? 'OPEN' : 'CLOSED' }}
+        </span>
+      </div>
+
+      <h3 class="lot-card-name">{{ lot.name }}</h3>
+      <p class="lot-card-addr">{{ lot.address }}, {{ lot.city }}</p>
+
+      <div class="lot-card-stats">
+        <div class="lcs">
+          <span class="lcs-v">{{ lot.availableSpots }}</span>
+          <span class="lcs-l mono">OPEN</span>
+        </div>
+        <div class="lcs-sep"></div>
+        <div class="lcs">
+          <span class="lcs-v">{{ lot.totalSpots }}</span>
+          <span class="lcs-l mono">TOTAL</span>
+        </div>
+        <div class="lcs-sep"></div>
+        <div class="lcs">
+          <span class="lcs-v">{{ Math.round(100 * (1 - lot.availableSpots / (lot.totalSpots || 1))) }}%</span>
+          <span class="lcs-l mono">OCC.</span>
+        </div>
+      </div>
+
+      <div class="lot-card-actions">
+        <button class="btn ghost sm" (click)="toggleOpen(lot)">
+          {{ lot.isOpen ? 'Close lot' : 'Open lot' }}
+        </button>
+        <button class="btn ghost sm" (click)="goToAnalytics(lot.id)">Analytics</button>
+        <button class="btn sm" (click)="goToLot(lot.id)">Manage →</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="empty" *ngIf="!loading && !lots.length">
+    <h3>No lots registered</h3>
+    <p>Register your first lot. It'll go through admin approval before becoming publicly bookable.</p>
+    <button class="btn" (click)="open()">Register your first lot</button>
+  </div>
+</div>
+
+<!-- Create modal -->
+<div class="modal-backdrop" *ngIf="showForm" (click)="close()">
+  <div class="modal wide" (click)="$event.stopPropagation()">
+    <span class="chip accent">◉ REGISTER LOT</span>
+    <h2>New parking facility</h2>
+    <p class="sub">Admin approval is required before drivers can see this lot.</p>
+
+    <form [formGroup]="form" (ngSubmit)="save()" novalidate>
+      <div class="field">
+        <label>Lot name</label>
+        <input type="text" formControlName="name" placeholder="Krishna Janmabhoomi Parking">
+      </div>
+
+      <div class="field">
+        <label>Description <span class="hint">optional</span></label>
+        <textarea formControlName="description" rows="2" placeholder="Covered parking near temple entrance, 24/7 security"></textarea>
+      </div>
+
+      <div class="field">
+        <label>Street address</label>
+        <input type="text" formControlName="address" placeholder="42 Station Road, Civil Lines">
+      </div>
+
+      <div class="grid-3">
+        <div class="field">
+          <label>City</label>
+          <input type="text" formControlName="city" placeholder="Mathura">
+        </div>
+        <div class="field">
+          <label>State</label>
+          <input type="text" formControlName="state" placeholder="Uttar Pradesh">
+        </div>
+        <div class="field">
+          <label>Pincode</label>
+          <input type="text" formControlName="pincode" placeholder="281001">
+        </div>
+      </div>
+
+      <div class="geo-row">
+        <div class="grid-2 geo-inputs">
+          <div class="field">
+            <label>Latitude</label>
+            <input type="number" step="0.000001" formControlName="latitude">
+          </div>
+          <div class="field">
+            <label>Longitude</label>
+            <input type="number" step="0.000001" formControlName="longitude">
+          </div>
+        </div>
+        <button type="button" class="btn ghost sm locate" (click)="useCurrentLocation()" [disabled]="locating">
+          <span *ngIf="!locating">◉ Use my GPS</span>
+          <span *ngIf="locating" class="mono">LOCATING...</span>
+        </button>
+      </div>
+
+      <div class="grid-3">
+        <div class="field">
+          <label>Total spots</label>
+          <input type="number" min="1" formControlName="totalSpots">
+        </div>
+        <div class="field">
+          <label>Open time</label>
+          <input type="time" formControlName="openTime">
+        </div>
+        <div class="field">
+          <label>Close time</label>
+          <input type="time" formControlName="closeTime">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Image URL <span class="hint">optional</span></label>
+        <input type="url" formControlName="imageUrl" placeholder="https://...">
+      </div>
+
+      <div class="error-banner" *ngIf="error">{{ error }}</div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn ghost" (click)="close()">Cancel</button>
+        <button type="submit" class="btn" [disabled]="saving">
+          <span *ngIf="!saving">Register lot</span>
+          <span *ngIf="saving" class="mono">SAVING...</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

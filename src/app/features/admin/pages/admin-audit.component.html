@@ -1,0 +1,31 @@
+<div class="dash-body">
+  <div class="dash-hero">
+    <div>
+      <div class="hello">AUDIT LOGS</div>
+      <h1>Critical <em>actions.</em></h1>
+      <p class="sub">Lot approvals, user suspension, manager credentials, and admin security events.</p>
+    </div>
+  </div>
+
+  <div class="loading" *ngIf="loading">Loading audit trail...</div>
+
+  <div class="data-list" *ngIf="!loading && logs.length; else noLogs">
+    <div class="data-item" *ngFor="let log of logs">
+      <div class="data-marker cyan">#{{ log.id }}</div>
+      <div class="data-body">
+        <div class="data-title">{{ log.action }}</div>
+        <div class="data-meta">
+          {{ log.createdAtUtc | date:'MMM d, y, HH:mm' }} · actor {{ log.actorUserId || 'system' }} · {{ log.targetType || 'target' }} {{ log.targetUserId || '' }}
+        </div>
+        <div class="data-meta">{{ log.details }}</div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noLogs>
+    <div class="empty" *ngIf="!loading">
+      <h3>No audit entries yet</h3>
+      <p>Critical admin actions will appear here automatically.</p>
+    </div>
+  </ng-template>
+</div>

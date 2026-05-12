@@ -1,0 +1,82 @@
+<div class="dash-body">
+  <div class="dash-hero">
+    <div>
+      <div class="hello">PAYMENT HISTORY - {{ auth.currentUser?.email }}</div>
+      <h1>Your <em>payments.</em></h1>
+      <p class="sub">All transactions, receipts, and refunds - every rupee accounted for.</p>
+    </div>
+    <div class="head-actions">
+      <div class="stat-pill amber">Rs. {{ totalPaid | number:'1.0-0' }} <span class="mono">PAID</span></div>
+      <div class="stat-pill cyan">Rs. {{ totalRefunded | number:'1.0-0' }} <span class="mono">REFUNDED</span></div>
+    </div>
+  </div>
+
+  <div class="filter-bar">
+    <button class="filter-btn" [class.active]="filter === 'ALL'" (click)="filter = 'ALL'">All ({{ payments.length }})</button>
+    <button class="filter-btn" [class.active]="filter === 'PAID'" (click)="filter = 'PAID'">Paid</button>
+    <button class="filter-btn" [class.active]="filter === 'REFUNDED'" (click)="filter = 'REFUNDED'">Refunded</button>
+    <button class="filter-btn" [class.active]="filter === 'PENDING'" (click)="filter = 'PENDING'">Pending</button>
+  </div>
+
+  <div class="error-banner" *ngIf="error">{{ error }}</div>
+  <div class="loading" *ngIf="loading">Loading payments...</div>
+
+  <div class="payment-list" *ngIf="!loading">
+    <div class="payment-card" *ngFor="let p of filtered">
+      <div class="pc-left">
+        <div class="pc-mode mono">{{ methodName(p) }}</div>
+        <div>
+          <div class="pc-amount">Rs. {{ p.amount | number:'1.0-2' }}</div>
+          <div class="pc-desc mono">{{ description(p) }}</div>
+          <div class="pc-meta mono">
+            {{ paidAt(p) | date:'MMM d, yyyy - HH:mm' }}
+            <span *ngIf="transactionRef(p)"> - TXN {{ transactionRef(p) }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="pc-right">
+        <span class="chip sm" [class]="statusClass(p)">{{ statusName(p) }}</span>
+        <div class="pc-actions">
+          <button class="btn ghost sm"
+                  (click)="viewReceipt(p)">
+            Receipt
+          </button>
+          <button class="btn ghost sm"
+                  *ngIf="isPaid(p)"
+                  (click)="requestRefund(p)">
+            Refund
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="empty" *ngIf="!filtered.length">
+      <h3>No payments here</h3>
+      <p>Payments will appear here once you complete a booking.</p>
+    </div>
+  </div>
+</div>
+
+<div class="receipt-backdrop" *ngIf="selectedReceipt" (click)="closeReceipt()">
+  <div class="receipt-modal" (click)="$event.stopPropagation()">
+    <div class="hello">PAYMENT RECEIPT</div>
+    <h2>ParkEase receipt</h2>
+    <p class="sub mono">PE-PAY-{{ selectedReceipt.id }}</p>
+
+    <div class="receipt-grid">
+      <div><span>Payment</span><strong>#{{ selectedReceipt.id }}</strong></div>
+      <div><span>Booking</span><strong>#{{ selectedReceipt.bookingId }}</strong></div>
+      <div><span>Method</span><strong>{{ methodName(selectedReceipt) }}</strong></div>
+      <div><span>Status</span><strong>{{ statusName(selectedReceipt) }}</strong></div>
+      <div><span>Date</span><strong>{{ paidAt(selectedReceipt) | date:'MMM d, yyyy - HH:mm' }}</strong></div>
+      <div><span>Transaction</span><strong>{{ transactionRef(selectedReceipt) || 'Not assigned' }}</strong></div>
+      <div class="wide"><span>Description</span><strong>{{ description(selectedReceipt) }}</strong></div>
+      <div><span>Total</span><strong>Rs. {{ selectedReceipt.amount | number:'1.0-2' }}</strong></div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn ghost" (click)="closeReceipt()">Close</button>
+      <button class="btn" (click)="printReceipt()">Print</button>
+    </div>
+  </div>
+</div>

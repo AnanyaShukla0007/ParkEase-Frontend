@@ -1,0 +1,51 @@
+:host { display: block; }
+
+.creds-modal { max-width: 540px; }
+
+.creds-block {
+  background: rgba(198, 255, 77, 0.06);
+  border: 1px solid rgba(198, 255, 77, 0.3);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin: 20px 0;
+}
+
+.creds-row {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 14px;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+.creds-row:last-child { border-bottom: none; }
+
+.creds-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  color: var(--lime);
+}
+
+.creds-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1rem;
+  color: var(--paper);
+  background: rgba(255, 255, 255, 0.04);
+  padding: 6px 10px;
+  border-radius: 6px;
+  word-break: break-all;
+}
+
+.creds-note {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  margin: 0 0 4px;
+  font-style: italic;
+}
+
+@media (max-width: 480px) {
+  .creds-row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+}

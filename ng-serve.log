@@ -1,0 +1,775 @@
+
+> parkease-frontend@1.0.0 start
+> ng serve --host 0.0.0.0 --port 4200
+
+
+Warning: This is a simple server for use in testing or debugging Angular applications
+locally. It hasn't been reviewed for security issues.
+
+Binding this server to an open connection can result in compromising your application or
+computer. Using a different host than the one passed to the "--host" flag might result in
+websocket connection issues. You might need to use "--disable-host-check" if that's the
+case.
+    
+- Generating browser application bundles (phase: setup)...
+√ Browser application bundle generation complete.
+
+Initial Chunk Files                                                                                     | Names                           |  Raw Size
+vendor.js                                                                                               | vendor                          |   2.79 MB |
+main.js                                                                                                 | main                            | 417.58 kB |
+polyfills.js                                                                                            | polyfills                       | 252.56 kB |
+styles.css, styles.js                                                                                   | styles                          | 179.59 kB |
+runtime.js                                                                                              | runtime                         |  12.65 kB |
+
+| Initial Total                   |   3.63 MB
+
+Lazy Chunk Files                                                                                        | Names                           |  Raw Size
+src_app_features_driver_driver_module_ts.js                                                             | features-driver-driver-module   |   1.08 MB |
+src_app_features_admin_admin_module_ts.js                                                               | features-admin-admin-module     | 491.16 kB |
+src_app_features_manager_manager_module_ts.js                                                           | features-manager-manager-module | 430.25 kB |
+default-src_app_core_models_api-models_ts-src_app_core_services_api_services_ts-src_app_core_-505a4b.js | features-driver-driver-module   |  70.22 kB |
+common.js                                                                                               | common                          |   3.35 kB |
+
+Build at: 2026-05-05T11:02:08.413Z - Hash: 5b37b97440aca7ca - Time: 26511ms
+
+Warning: C:/Users/anany/Downloads/ParkEase-Frontend (1)/ParkEase-Frontend/src/environments/environment.prod.ts is part of the TypeScript compilation but it's unused.
+Add only entry points to the 'files' or 'include' properties in your tsconfig.
+
+Warning: C:\Users\anany\Downloads\ParkEase-Frontend (1)\ParkEase-Frontend\src\app\features\driver\pages\nearby-lots.component.ts depends on 'leaflet'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+
+
+** Angular Live Development Server is listening on 0.0.0.0:4200, open your browser on http://localhost:4200/ **
+
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files | Names   | Raw Size
+runtime.js          | runtime | 12.65 kB |
+
+9 unchanged chunks
+
+Build at: 2026-05-05T11:02:11.202Z - Hash: 6bc3bb2bf8ee83d3 - Time: 2439ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files | Names   |  Raw Size
+main.js             | main    | 417.60 kB |
+runtime.js          | runtime |  12.65 kB |
+
+8 unchanged chunks
+
+Build at: 2026-05-05T11:04:50.446Z - Hash: 2ba713b4cebb9c28 - Time: 4265ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files                                                                                     | Names                         | Raw Size
+runtime.js                                                                                              | runtime                       | 12.65 kB |
+
+Lazy Chunk Files                                                                                        | Names                         | Raw Size
+default-src_app_core_models_api-models_ts-src_app_core_services_api_services_ts-src_app_core_-505a4b.js | features-driver-driver-module | 71.95 kB |
+
+8 unchanged chunks
+
+Build at: 2026-05-05T11:16:33.394Z - Hash: 165bb3f5456f7da4 - Time: 21937ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files                         | Names                         | Raw Size
+runtime.js                                  | runtime                       | 12.65 kB |
+
+Lazy Chunk Files                            | Names                         | Raw Size
+src_app_features_driver_driver_module_ts.js | features-driver-driver-module |  1.08 MB |
+
+8 unchanged chunks
+
+Build at: 2026-05-05T18:23:11.997Z - Hash: 956788c7a6bbf9b9 - Time: 5493ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files                         | Names                         | Raw Size
+runtime.js                                  | runtime                       | 12.65 kB |
+
+Lazy Chunk Files                            | Names                         | Raw Size
+src_app_features_driver_driver_module_ts.js | features-driver-driver-module |  1.08 MB |
+
+8 unchanged chunks
+
+Build at: 2026-05-05T18:23:14.574Z - Hash: fea8552765a3fe25 - Time: 2279ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files                         | Names                         | Raw Size
+runtime.js                                  | runtime                       | 12.65 kB |
+
+Lazy Chunk Files                            | Names                         | Raw Size
+src_app_features_driver_driver_module_ts.js | features-driver-driver-module |  1.08 MB |
+
+8 unchanged chunks
+
+Build at: 2026-05-05T18:24:04.323Z - Hash: 74ccbeafc6adffcb - Time: 3641ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files                         | Names                         | Raw Size
+runtime.js                                  | runtime                       | 12.65 kB |
+
+Lazy Chunk Files                            | Names                         | Raw Size
+src_app_features_driver_driver_module_ts.js | features-driver-driver-module |  1.08 MB |
+
+8 unchanged chunks
+
+Build at: 2026-05-05T18:25:12.742Z - Hash: e75fd5cca1cb0d10 - Time: 2002ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files                         | Names                         | Raw Size
+runtime.js                                  | runtime                       | 12.65 kB |
+
+Lazy Chunk Files                            | Names                         | Raw Size
+src_app_features_driver_driver_module_ts.js | features-driver-driver-module |  1.09 MB |
+
+8 unchanged chunks
+
+Build at: 2026-05-05T18:26:08.852Z - Hash: 0c506d4ffd6098d2 - Time: 1961ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files                         | Names                         | Raw Size
+runtime.js                                  | runtime                       | 12.65 kB |
+
+Lazy Chunk Files                            | Names                         | Raw Size
+src_app_features_driver_driver_module_ts.js | features-driver-driver-module |  1.10 MB |
+
+8 unchanged chunks
+
+Build at: 2026-05-05T18:27:02.988Z - Hash: d6437a2fba24544d - Time: 4466ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files                         | Names                         | Raw Size
+runtime.js                                  | runtime                       | 12.65 kB |
+
+Lazy Chunk Files                            | Names                         | Raw Size
+src_app_features_driver_driver_module_ts.js | features-driver-driver-module |  1.10 MB |
+
+8 unchanged chunks
+
+Build at: 2026-05-05T18:31:10.112Z - Hash: 7bd4da27ca512bc7 - Time: 61522ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files                         | Names                         |  Raw Size
+main.js                                     | main                          | 417.75 kB |
+runtime.js                                  | runtime                       |  12.65 kB |
+
+Lazy Chunk Files                            | Names                         |  Raw Size
+src_app_features_driver_driver_module_ts.js | features-driver-driver-module |   1.10 MB |
+
+7 unchanged chunks
+
+Build at: 2026-05-05T19:09:31.274Z - Hash: 36d689112df39af4 - Time: 57921ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files                                                                                     | Names                         | Raw Size
+runtime.js                                                                                              | runtime                       | 12.65 kB |
+
+Lazy Chunk Files                                                                                        | Names                         | Raw Size
+default-src_app_core_models_api-models_ts-src_app_core_services_api_services_ts-src_app_core_-505a4b.js | features-driver-driver-module | 72.82 kB |
+
+8 unchanged chunks
+
+Build at: 2026-05-05T19:10:10.483Z - Hash: a6ef91771a865b2c - Time: 7033ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files                                                                                     | Names                         | Raw Size
+runtime.js                                                                                              | runtime                       | 12.65 kB |
+
+Lazy Chunk Files                                                                                        | Names                         | Raw Size
+default-src_app_core_models_api-models_ts-src_app_core_services_api_services_ts-src_app_core_-505a4b.js | features-driver-driver-module | 75.76 kB |
+
+8 unchanged chunks
+
+Build at: 2026-05-05T19:11:10.565Z - Hash: d5bae5a28e016e7b - Time: 1206ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files                                                                                     | Names                         | Raw Size
+runtime.js                                                                                              | runtime                       | 12.65 kB |
+
+Lazy Chunk Files                                                                                        | Names                         | Raw Size
+default-src_app_core_models_api-models_ts-src_app_core_services_api_services_ts-src_app_core_-505a4b.js | features-driver-driver-module | 77.76 kB |
+
+8 unchanged chunks
+
+Build at: 2026-05-05T19:12:20.895Z - Hash: 2d9c5df169ecfd58 - Time: 4482ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files | Names   |  Raw Size
+main.js             | main    | 417.86 kB |
+runtime.js          | runtime |  12.65 kB |
+
+8 unchanged chunks
+
+Build at: 2026-05-05T19:12:50.789Z - Hash: 4fbc058bd3199582 - Time: 1355ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files | Names   |  Raw Size
+main.js             | main    | 418.87 kB |
+runtime.js          | runtime |  12.65 kB |
+
+8 unchanged chunks
+
+Build at: 2026-05-05T19:13:37.430Z - Hash: 7cc6eb5500e46027 - Time: 1358ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files                                                                                     | Names                         | Raw Size
+runtime.js                                                                                              | runtime                       | 12.65 kB |
+
+Lazy Chunk Files                                                                                        | Names                         | Raw Size
+default-src_app_core_models_api-models_ts-src_app_core_services_api_services_ts-src_app_core_-505a4b.js | features-driver-driver-module | 89.03 kB |
+
+8 unchanged chunks
+
+Build at: 2026-05-10T07:38:19.837Z - Hash: 8b11fd0427713666 - Time: 9134ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files                                                                                     | Names                         | Raw Size
+runtime.js                                                                                              | runtime                       | 12.65 kB |
+
+Lazy Chunk Files                                                                                        | Names                         | Raw Size
+default-src_app_core_models_api-models_ts-src_app_core_services_api_services_ts-src_app_core_-505a4b.js | features-driver-driver-module | 89.40 kB |
+
+8 unchanged chunks
+
+Build at: 2026-05-10T07:39:00.220Z - Hash: 4c315ba2c8f823d3 - Time: 1902ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files                           | Names                           |  Raw Size
+runtime.js                                    | runtime                         |  12.65 kB |
+
+Lazy Chunk Files                              | Names                           |  Raw Size
+src_app_features_manager_manager_module_ts.js | features-manager-manager-module | 480.34 kB |
+
+8 unchanged chunks
+
+Build at: 2026-05-10T07:48:50.340Z - Hash: faaa088120ba05fd - Time: 3063ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files                           | Names                           |  Raw Size
+runtime.js                                    | runtime                         |  12.65 kB |
+
+Lazy Chunk Files                              | Names                           |  Raw Size
+src_app_features_manager_manager_module_ts.js | features-manager-manager-module | 480.64 kB |
+
+8 unchanged chunks
+
+Build at: 2026-05-10T07:49:17.143Z - Hash: 26f287f9e15cbeb6 - Time: 1088ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files                       | Names                       |  Raw Size
+runtime.js                                | runtime                     |  12.65 kB |
+
+Lazy Chunk Files                          | Names                       |  Raw Size
+src_app_features_admin_admin_module_ts.js | features-admin-admin-module | 491.44 kB |
+
+8 unchanged chunks
+
+Build at: 2026-05-10T07:49:48.104Z - Hash: 0b41b8cb92124c29 - Time: 1505ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files                                                                                     | Names                         | Raw Size
+runtime.js                                                                                              | runtime                       | 12.65 kB |
+
+Lazy Chunk Files                                                                                        | Names                         | Raw Size
+default-src_app_core_models_api-models_ts-src_app_core_services_api_services_ts-src_app_core_-505a4b.js | features-driver-driver-module | 89.48 kB |
+
+8 unchanged chunks
+
+Build at: 2026-05-10T07:50:16.281Z - Hash: 1c828a27602372b9 - Time: 3638ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files                           | Names                           |  Raw Size
+runtime.js                                    | runtime                         |  12.65 kB |
+
+Lazy Chunk Files                              | Names                           |  Raw Size
+src_app_features_manager_manager_module_ts.js | features-manager-manager-module | 480.58 kB |
+
+8 unchanged chunks
+
+Build at: 2026-05-10T07:50:41.719Z - Hash: 0c10124ba4dedd5d - Time: 1881ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files                           | Names                           |  Raw Size
+runtime.js                                    | runtime                         |  12.65 kB |
+
+Lazy Chunk Files                              | Names                           |  Raw Size
+src_app_features_manager_manager_module_ts.js | features-manager-manager-module | 480.58 kB |
+
+8 unchanged chunks
+
+Build at: 2026-05-10T07:51:07.599Z - Hash: 0e84e6af11579e24 - Time: 1588ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files                         | Names                         | Raw Size
+runtime.js                                  | runtime                       | 12.65 kB |
+
+Lazy Chunk Files                            | Names                         | Raw Size
+src_app_features_driver_driver_module_ts.js | features-driver-driver-module |  1.10 MB |
+
+8 unchanged chunks
+
+Build at: 2026-05-10T07:51:44.949Z - Hash: 9ce6906749bc406e - Time: 3008ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files                         | Names                         | Raw Size
+runtime.js                                  | runtime                       | 12.65 kB |
+
+Lazy Chunk Files                            | Names                         | Raw Size
+src_app_features_driver_driver_module_ts.js | features-driver-driver-module |  1.11 MB |
+
+8 unchanged chunks
+
+Build at: 2026-05-10T07:52:19.135Z - Hash: 268a240e67d01514 - Time: 2588ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files                                                                                     | Names                           |  Raw Size
+runtime.js                                                                                              | runtime                         |  12.65 kB |
+
+Lazy Chunk Files                                                                                        | Names                           |  Raw Size
+src_app_features_driver_driver_module_ts.js                                                             | features-driver-driver-module   |   1.11 MB |
+src_app_features_admin_admin_module_ts.js                                                               | features-admin-admin-module     | 491.44 kB |
+src_app_features_manager_manager_module_ts.js                                                           | features-manager-manager-module | 480.58 kB |
+default-src_app_core_models_api-models_ts-src_app_core_services_api_services_ts-src_app_core_-505a4b.js | features-driver-driver-module   |  89.73 kB |
+
+5 unchanged chunks
+
+Build at: 2026-05-10T07:54:05.909Z - Hash: c192441d6f76aec2 - Time: 4975ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files                         | Names                         | Raw Size
+runtime.js                                  | runtime                       | 12.65 kB |
+
+Lazy Chunk Files                            | Names                         | Raw Size
+src_app_features_driver_driver_module_ts.js | features-driver-driver-module |  1.11 MB |
+
+8 unchanged chunks
+
+Build at: 2026-05-10T07:58:24.876Z - Hash: d98b72eee6e295a8 - Time: 2765ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files                                                                                     | Names                           |  Raw Size
+main.js                                                                                                 | main                            | 419.02 kB |
+runtime.js                                                                                              | runtime                         |  12.65 kB |
+
+Lazy Chunk Files                                                                                        | Names                           |  Raw Size
+src_app_features_driver_driver_module_ts.js                                                             | features-driver-driver-module   |   1.11 MB |
+src_app_features_manager_manager_module_ts.js                                                           | features-manager-manager-module | 480.58 kB |
+default-src_app_core_models_api-models_ts-src_app_core_services_api_services_ts-src_app_core_-505a4b.js | features-driver-driver-module   |  89.73 kB |
+
+5 unchanged chunks
+
+Build at: 2026-05-10T08:41:29.854Z - Hash: f1a34c01b3a0e29e - Time: 21772ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files                         | Names                         | Raw Size
+runtime.js                                  | runtime                       | 12.65 kB |
+
+Lazy Chunk Files                            | Names                         | Raw Size
+src_app_features_driver_driver_module_ts.js | features-driver-driver-module |  1.11 MB |
+
+8 unchanged chunks
+
+Build at: 2026-05-10T08:46:34.818Z - Hash: 372538e725689567 - Time: 7645ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files                                                                                     | Names                         |  Raw Size
+main.js                                                                                                 | main                          | 419.04 kB |
+runtime.js                                                                                              | runtime                       |  12.65 kB |
+
+Lazy Chunk Files                                                                                        | Names                         |  Raw Size
+default-src_app_core_models_api-models_ts-src_app_core_services_api_services_ts-src_app_core_-505a4b.js | features-driver-driver-module |  89.73 kB |
+
+7 unchanged chunks
+
+Build at: 2026-05-10T08:49:02.383Z - Hash: 69ba9fd674be25de - Time: 9258ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+10 unchanged chunks
+
+Build at: 2026-05-10T08:50:00.880Z - Hash: 69ba9fd674be25de - Time: 1869ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+10 unchanged chunks
+
+Build at: 2026-05-10T08:51:49.764Z - Hash: 69ba9fd674be25de - Time: 7392ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files | Names   |  Raw Size
+main.js             | main    | 421.04 kB |
+runtime.js          | runtime |  12.65 kB |
+
+8 unchanged chunks
+
+Build at: 2026-05-10T08:53:00.182Z - Hash: 8abecdd70dd76782 - Time: 11067ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files | Names   |  Raw Size
+main.js             | main    | 422.38 kB |
+runtime.js          | runtime |  12.65 kB |
+
+8 unchanged chunks
+
+Build at: 2026-05-10T08:53:36.717Z - Hash: 39ca21714f708904 - Time: 2565ms
+
+Error: src/app/features/auth/login.component.html:98:38 - error TS2339: Property 'environmentGoogleConfigured' does not exist on type 'LoginComponent'.
+
+98         <p class="auth-foot" *ngIf="!environmentGoogleConfigured">
+                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  src/app/features/auth/login.component.ts:12:16
+    12   templateUrl: './login.component.html',
+                      ~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component LoginComponent.
+
+
+
+
+× Failed to compile.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files | Names   |  Raw Size
+main.js             | main    | 422.50 kB |
+runtime.js          | runtime |  12.65 kB |
+
+8 unchanged chunks
+
+Build at: 2026-05-10T08:54:07.866Z - Hash: fe15c10d8282bece - Time: 2805ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files | Names   |  Raw Size
+main.js             | main    | 424.08 kB |
+runtime.js          | runtime |  12.65 kB |
+
+8 unchanged chunks
+
+Build at: 2026-05-10T08:56:14.620Z - Hash: 636a707212728f5c - Time: 8215ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files                           | Names                           |  Raw Size
+main.js                                       | main                            | 424.08 kB |
+runtime.js                                    | runtime                         |  12.65 kB |
+
+Lazy Chunk Files                              | Names                           |  Raw Size
+src_app_features_driver_driver_module_ts.js   | features-driver-driver-module   |   1.11 MB |
+src_app_features_manager_manager_module_ts.js | features-manager-manager-module | 480.58 kB |
+
+6 unchanged chunks
+
+Build at: 2026-05-10T09:00:22.228Z - Hash: 4db8f8889f2f74bc - Time: 80471ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+10 unchanged chunks
+
+Build at: 2026-05-10T18:30:18.712Z - Hash: 4db8f8889f2f74bc - Time: 6667ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files | Names   |  Raw Size
+main.js             | main    | 424.15 kB |
+runtime.js          | runtime |  12.65 kB |
+
+8 unchanged chunks
+
+Build at: 2026-05-10T18:30:31.193Z - Hash: cccc263fa29cf36f - Time: 6126ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+10 unchanged chunks
+
+Build at: 2026-05-11T12:54:26.840Z - Hash: cccc263fa29cf36f - Time: 11215ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files | Names   |  Raw Size
+main.js             | main    | 424.15 kB |
+runtime.js          | runtime |  12.65 kB |
+
+8 unchanged chunks
+
+Build at: 2026-05-11T12:56:09.701Z - Hash: b4814a32ea08e501 - Time: 14871ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files | Names   |  Raw Size
+main.js             | main    | 424.15 kB |
+runtime.js          | runtime |  12.65 kB |
+
+8 unchanged chunks
+
+Build at: 2026-05-11T12:56:16.068Z - Hash: 957cd45e03266f05 - Time: 1076ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files | Names   |  Raw Size
+vendor.js           | vendor  |   2.83 MB |
+main.js             | main    | 424.46 kB |
+runtime.js          | runtime |  12.65 kB |
+
+7 unchanged chunks
+
+Build at: 2026-05-11T12:56:20.023Z - Hash: 8cca793a1ec77528 - Time: 3823ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files | Names   |  Raw Size
+main.js             | main    | 425.04 kB |
+runtime.js          | runtime |  12.65 kB |
+
+8 unchanged chunks
+
+Build at: 2026-05-11T12:56:59.721Z - Hash: 24693c606fb558cf - Time: 1083ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files | Names   |  Raw Size
+main.js             | main    | 425.65 kB |
+runtime.js          | runtime |  12.65 kB |
+
+8 unchanged chunks
+
+Build at: 2026-05-11T12:58:22.009Z - Hash: d4dbf549a11268cd - Time: 2565ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files                                                                                     | Names                         | Raw Size
+runtime.js                                                                                              | runtime                       | 12.65 kB |
+
+Lazy Chunk Files                                                                                        | Names                         | Raw Size
+default-src_app_core_models_api-models_ts-src_app_core_services_api_services_ts-src_app_core_-505a4b.js | features-driver-driver-module | 91.71 kB |
+
+8 unchanged chunks
+
+Build at: 2026-05-11T14:23:06.210Z - Hash: f43481620855ea4a - Time: 9091ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files                         | Names                         | Raw Size
+runtime.js                                  | runtime                       | 12.65 kB |
+
+Lazy Chunk Files                            | Names                         | Raw Size
+src_app_features_driver_driver_module_ts.js | features-driver-driver-module |  1.11 MB |
+
+8 unchanged chunks
+
+Build at: 2026-05-11T14:23:40.968Z - Hash: cfb1ad7149c5b2d3 - Time: 3301ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files                         | Names                         | Raw Size
+runtime.js                                  | runtime                       | 12.65 kB |
+
+Lazy Chunk Files                            | Names                         | Raw Size
+src_app_features_driver_driver_module_ts.js | features-driver-driver-module |  1.11 MB |
+
+8 unchanged chunks
+
+Build at: 2026-05-11T14:27:01.364Z - Hash: a7288dba5c5c1fe2 - Time: 2282ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files                       | Names                       |  Raw Size
+runtime.js                                | runtime                     |  12.65 kB |
+
+Lazy Chunk Files                          | Names                       |  Raw Size
+src_app_features_admin_admin_module_ts.js | features-admin-admin-module | 492.72 kB |
+
+8 unchanged chunks
+
+Build at: 2026-05-11T14:27:34.493Z - Hash: e160eb878b968c51 - Time: 2915ms
+
+Error: src/app/features/admin/pages/admin-analytics.component.ts:21:5 - error TS2304: Cannot find name 'forkJoin'.
+
+21     forkJoin({
+       ~~~~~~~~
+
+
+Error: src/app/features/admin/pages/admin-analytics.component.ts:25:18 - error TS7006: Parameter 'res' implicitly has an 'any' type.
+
+25     }).subscribe(res => {
+                    ~~~
+
+
+
+
+× Failed to compile.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files                       | Names                       |  Raw Size
+runtime.js                                | runtime                     |  12.65 kB |
+
+Lazy Chunk Files                          | Names                       |  Raw Size
+src_app_features_admin_admin_module_ts.js | features-admin-admin-module | 492.86 kB |
+
+8 unchanged chunks
+
+Build at: 2026-05-11T14:28:25.560Z - Hash: 909e5cfb255e889e - Time: 1854ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files                       | Names                       |  Raw Size
+runtime.js                                | runtime                     |  12.65 kB |
+
+Lazy Chunk Files                          | Names                       |  Raw Size
+src_app_features_admin_admin_module_ts.js | features-admin-admin-module | 500.14 kB |
+
+8 unchanged chunks
+
+Build at: 2026-05-11T14:29:31.124Z - Hash: a2b75e09e02857eb - Time: 2435ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files                           | Names                           |  Raw Size
+runtime.js                                    | runtime                         |  12.65 kB |
+
+Lazy Chunk Files                              | Names                           |  Raw Size
+src_app_features_manager_manager_module_ts.js | features-manager-manager-module | 481.61 kB |
+
+8 unchanged chunks
+
+Build at: 2026-05-11T14:31:25.920Z - Hash: fc38cd9ba5a41f12 - Time: 2550ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files                           | Names                           |  Raw Size
+runtime.js                                    | runtime                         |  12.65 kB |
+
+Lazy Chunk Files                              | Names                           |  Raw Size
+src_app_features_manager_manager_module_ts.js | features-manager-manager-module | 482.38 kB |
+
+8 unchanged chunks
+
+Build at: 2026-05-11T14:31:51.898Z - Hash: e22eafe9029ae1d6 - Time: 1552ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files                                                                                     | Names                           |  Raw Size
+runtime.js                                                                                              | runtime                         |  12.65 kB |
+
+Lazy Chunk Files                                                                                        | Names                           |  Raw Size
+src_app_features_driver_driver_module_ts.js                                                             | features-driver-driver-module   |   1.11 MB |
+src_app_features_admin_admin_module_ts.js                                                               | features-admin-admin-module     | 500.14 kB |
+src_app_features_manager_manager_module_ts.js                                                           | features-manager-manager-module | 482.38 kB |
+default-src_app_core_models_api-models_ts-src_app_core_services_api_services_ts-src_app_core_-505a4b.js | features-driver-driver-module   |  91.79 kB |
+
+5 unchanged chunks
+
+Build at: 2026-05-11T14:42:02.780Z - Hash: 368a44701dc45de7 - Time: 18856ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files                       | Names                       |  Raw Size
+runtime.js                                | runtime                     |  12.65 kB |
+
+Lazy Chunk Files                          | Names                       |  Raw Size
+src_app_features_admin_admin_module_ts.js | features-admin-admin-module | 537.98 kB |
+
+8 unchanged chunks
+
+Build at: 2026-05-11T14:42:28.154Z - Hash: 252365faaa4d9ef7 - Time: 8559ms
+
+√ Compiled successfully.
+√ Browser application bundle generation complete.
+
+Initial Chunk Files                       | Names                       |  Raw Size
+runtime.js                                | runtime                     |  12.65 kB |
+
+Lazy Chunk Files                          | Names                       |  Raw Size
+src_app_features_admin_admin_module_ts.js | features-admin-admin-module | 538.25 kB |
+
+8 unchanged chunks
+
+Build at: 2026-05-11T14:43:47.863Z - Hash: 4c767c5726aae945 - Time: 4681ms
+
+√ Compiled successfully.

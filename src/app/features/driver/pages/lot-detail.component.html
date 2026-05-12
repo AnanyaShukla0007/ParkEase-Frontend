@@ -1,0 +1,254 @@
+<div class="dash-body">
+  <a routerLink="/driver/nearby" class="back-link">← Back to map</a>
+
+  <div class="loading" *ngIf="loading">Loading lot...</div>
+  <div class="error-banner" *ngIf="error && !loading">{{ error }}</div>
+  <div class="error-banner" *ngIf="isGuest && !loading">
+    Guest mode: you can inspect lots and spots. Sign in to reserve, check in, or pay.
+  </div>
+
+  <ng-container *ngIf="!loading && lot">
+    <!-- Lot header -->
+    <div class="lot-head">
+      <div class="lot-head-main">
+        <span class="chip" [class.lime]="lot.isOpen" [class.rose]="!lot.isOpen">
+          {{ lot.isOpen ? '● OPEN NOW' : '○ CLOSED' }}
+        </span>
+        <h1>{{ lot.name }}</h1>
+        <p class="lot-addr">{{ lot.address }}, {{ lot.city }}, {{ lot.state }} {{ lot.pincode }}</p>
+        <p class="lot-hours mono">
+          HOURS {{ lot.openTime }} — {{ lot.closeTime }}
+          <span class="sep">·</span>
+          GPS {{ lot.latitude.toFixed(4) }}, {{ lot.longitude.toFixed(4) }}
+        </p>
+      </div>
+
+      <div class="occupancy-ring">
+        <svg viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="50" stroke="rgba(255,255,255,.06)" stroke-width="8" fill="none"/>
+          <circle
+            cx="60" cy="60" r="50"
+            [attr.stroke]="available / lot.totalSpots > 0.3 ? '#c6ff4d' : available / lot.totalSpots > 0.1 ? '#ffd84d' : '#ff5d73'"
+            stroke-width="8" fill="none"
+            stroke-linecap="round"
+            stroke-dasharray="314"
+            [attr.stroke-dashoffset]="314 - (314 * available / lot.totalSpots)"
+            transform="rotate(-90 60 60)"
+            class="occ-ring"/>
+        </svg>
+        <div class="ring-inner">
+          <div class="ring-val">{{ available }}</div>
+          <div class="ring-lab mono">OF {{ lot.totalSpots }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats row -->
+    <div class="stat-row">
+      <div class="stat-card lime">
+        <div class="label">Available</div>
+        <div class="val lime">{{ available }}</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Reserved</div>
+        <div class="val amber">{{ reserved }}</div>
+      </div>
+      <div class="stat-card rose">
+        <div class="label">Occupied</div>
+        <div class="val rose">{{ occupied }}</div>
+      </div>
+      <div class="stat-card cyan">
+        <div class="label">Floors</div>
+        <div class="val cyan">{{ floors.length }}</div>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters">
+      <div class="filter-group">
+        <span class="filter-label mono">FLOOR</span>
+        <button class="pill" [class.active]="filterFloor === null" (click)="filterFloor = null">All</button>
+        <button class="pill" *ngFor="let f of floors" [class.active]="filterFloor === f" (click)="filterFloor = f">
+          {{ f === 0 ? 'Ground' : 'L' + f }}
+        </button>
+      </div>
+
+      <div class="filter-group">
+        <span class="filter-label mono">TYPE</span>
+        <button class="pill" [class.active]="filterType === null" (click)="filterType = null">Any</button>
+        <button class="pill" *ngFor="let t of availableTypes" [class.active]="filterType === t" (click)="filterType = t">
+          {{ typeLabel[t] }}
+        </button>
+      </div>
+
+      <div class="filter-group">
+        <span class="filter-label mono">FEATURES</span>
+        <label class="check">
+          <input type="checkbox" [(ngModel)]="filterEV"> ⚡ EV charging
+        </label>
+        <label class="check">
+          <input type="checkbox" [(ngModel)]="filterHandicap"> ♿ Accessible
+        </label>
+      </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="spot-legend">
+      <div class="leg-item"><div class="spot-swatch status-1"></div> Available</div>
+      <div class="leg-item"><div class="spot-swatch status-2"></div> Reserved</div>
+      <div class="leg-item"><div class="spot-swatch status-3"></div> Occupied</div>
+      <div class="leg-item"><div class="spot-swatch ev"></div> ⚡ EV</div>
+      <div class="leg-item"><div class="spot-swatch handi"></div> ♿ Accessible</div>
+    </div>
+
+    <!-- Floor grids -->
+    <div class="floor-block" *ngFor="let f of floors">
+      <div class="floor-header">
+        <h3>{{ f === 0 ? 'Ground floor' : 'Level ' + f }}</h3>
+        <span class="mono count">{{ spotsFor(f).length }} SPOTS</span>
+      </div>
+
+      <div class="spot-grid">
+        <button
+          *ngFor="let s of spotsFor(f)"
+          class="spot-cell"
+          [class]="spotClass(s)"
+          [disabled]="s.status !== SpotStatus.Available"
+          (click)="selectSpot(s)"
+          [title]="'Spot #' + s.spotNumber + ' · ₹' + s.pricePerHour + '/hr'">
+          <span class="spot-num">{{ s.spotNumber }}</span>
+          <span class="spot-price mono">₹{{ s.pricePerHour }}</span>
+          <span class="spot-badge" *ngIf="s.isEVCharging">⚡</span>
+          <span class="spot-badge right" *ngIf="s.isHandicapped">♿</span>
+        </button>
+      </div>
+
+      <div class="empty-floor" *ngIf="spotsFor(f).length === 0">
+        No spots match your filters on this floor.
+      </div>
+    </div>
+
+    <div class="empty" *ngIf="filtered.length === 0 && !loading">
+      <h3>No matching spots</h3>
+      <p>Try loosening your filters — or pick a different lot.</p>
+    </div>
+  </ng-container>
+</div>
+
+<!-- Booking modal -->
+<div class="modal-backdrop" *ngIf="showBookingModal" (click)="closeModal()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <span class="chip accent">◉ RESERVE SPOT</span>
+
+    <ng-container *ngIf="!bookingSuccess && !createdBooking">
+      <h2 *ngIf="selectedSpot">Spot #{{ selectedSpot.spotNumber }}</h2>
+      <p class="sub" *ngIf="selectedSpot">
+        {{ typeLabel[selectedSpot.spotType] }} · Floor {{ selectedSpot.floor }}
+        · <span class="mono">₹{{ selectedSpot.pricePerHour }}/hr</span>
+      </p>
+
+      <div class="field">
+        <label>Booking type</label>
+        <div class="seg">
+          <button class="seg-btn" [class.active]="bookingType === BookingType.PreBooking" (click)="onBookingTypeChanged(BookingType.PreBooking)">Pre-book</button>
+          <button class="seg-btn" [class.active]="bookingType === BookingType.WalkIn" (click)="onBookingTypeChanged(BookingType.WalkIn)">Walk-in</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Payment mode</label>
+        <select [(ngModel)]="selectedPaymentMode" (ngModelChange)="onPaymentModeChanged()">
+          <option *ngFor="let mode of paymentModes()" [ngValue]="mode.value">
+            {{ mode.label }}{{ mode.enabled ? '' : ' - coming soon' }}
+          </option>
+        </select>
+      </div>
+
+      <div class="grid-2">
+        <div class="field">
+          <label>Start time</label>
+          <input type="datetime-local" [(ngModel)]="startTime">
+        </div>
+        <div class="field">
+          <label>End time</label>
+          <input type="datetime-local" [(ngModel)]="endTime">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Vehicle</label>
+        <select [(ngModel)]="selectedVehicle" *ngIf="vehicles.length">
+          <option [ngValue]="v" *ngFor="let v of vehicles">
+            {{ v.licensePlate }} — {{ v.make }} {{ v.model }}{{ v.isEV ? ' ⚡' : '' }}
+          </option>
+        </select>
+        <p class="sub" *ngIf="!vehicles.length">
+          No vehicles yet. <a routerLink="/driver/vehicles" (click)="closeModal()">Register one</a> first.
+        </p>
+      </div>
+
+      <div class="fare-row">
+        <div class="fare-label mono">ESTIMATED</div>
+        <div class="fare-val">
+          <span class="fare-hours">{{ estimatedHours.toFixed(1) }} hrs</span>
+          <span class="fare-amt">₹{{ estimatedAmount }}</span>
+        </div>
+      </div>
+
+      <div class="error-banner" *ngIf="bookingError">{{ bookingError }}</div>
+
+      <div class="modal-actions">
+        <button class="btn ghost" (click)="closeModal()">Cancel</button>
+        <button class="btn" (click)="confirmBooking()" [disabled]="bookingLoading || !vehicles.length">
+          <span *ngIf="!bookingLoading">Reserve spot</span>
+          <span *ngIf="bookingLoading" class="mono">RESERVING...</span>
+        </button>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="createdBooking && bookingType === BookingType.PreBooking && !bookingSuccess">
+      <div class="payment-panel">
+        <span class="chip accent">RAZORPAY</span>
+        <h2>Complete payment</h2>
+        <p class="sub">
+          Booking #{{ createdBooking.id }} is reserved. Complete payment to confirm your reservation.
+        </p>
+
+        <div class="payment-receipt">
+          <div>
+            <span class="mono">ORDER</span>
+            <strong>{{ paymentOrder?.order?.id || (paymentLoading ? 'Preparing...' : 'Not ready') }}</strong>
+          </div>
+          <div>
+            <span class="mono">AMOUNT</span>
+            <strong>Rs. {{ createdBooking.estimatedAmount || estimatedAmount }}</strong>
+          </div>
+          <div>
+            <span class="mono">METHOD</span>
+            <strong>{{ selectedPaymentMode }}</strong>
+          </div>
+        </div>
+
+        <div class="loading" *ngIf="paymentLoading">Contacting Razorpay...</div>
+        <div class="error-banner" *ngIf="paymentError">{{ paymentError }}</div>
+
+        <div class="modal-actions">
+          <button class="btn ghost" (click)="skipPaymentForNow()" [disabled]="paymentLoading">
+            Pay later
+          </button>
+          <button class="btn" (click)="payWithRazorpay()" [disabled]="paymentLoading">
+            {{ paymentLoading ? 'PROCESSING...' : paymentOrder ? 'Pay now' : 'Try payment again' }}
+          </button>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="bookingSuccess">
+      <div class="success">
+        <div class="success-icon">✓</div>
+        <h2>Spot reserved!</h2>
+        <p>Your booking is confirmed. Taking you to your bookings...</p>
+      </div>
+    </ng-container>
+  </div>
+</div>

@@ -1,0 +1,148 @@
+<div class="dash-body">
+  <div class="dash-hero">
+    <div>
+      <div class="hello">◉ BOOKING MANAGEMENT</div>
+      <h1>All <em>bookings.</em></h1>
+      <p class="sub">
+        Monitor active check-ins, upcoming reservations, and full history for
+        your lots.
+      </p>
+    </div>
+
+    <div class="head-actions">
+      <div class="stat-pill amber">
+        {{ activeBookings.length }}
+        <span class="mono">ACTIVE</span>
+      </div>
+
+      <div class="stat-pill cyan">
+        {{ reservedBookings.length }}
+        <span class="mono">RESERVED</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <div class="filter-bar">
+      <button
+        class="filter-btn"
+        [class.active]="filter === 'ALL'"
+        (click)="filter = 'ALL'"
+      >
+        All
+      </button>
+
+      <button
+        class="filter-btn"
+        [class.active]="filter === 'ACTIVE'"
+        (click)="filter = 'ACTIVE'"
+      >
+        Active
+      </button>
+
+      <button
+        class="filter-btn"
+        [class.active]="filter === 'RESERVED'"
+        (click)="filter = 'RESERVED'"
+      >
+        Reserved
+      </button>
+
+      <button
+        class="filter-btn"
+        [class.active]="filter === 'COMPLETED'"
+        (click)="filter = 'COMPLETED'"
+      >
+        Completed
+      </button>
+
+      <button
+        class="filter-btn"
+        [class.active]="filter === 'CANCELLED'"
+        (click)="filter = 'CANCELLED'"
+      >
+        Cancelled
+      </button>
+    </div>
+
+    <div class="toolbar-right">
+      <select class="select-input" [(ngModel)]="selectedLotId">
+        <option [ngValue]="'ALL'">All lots</option>
+        <option *ngFor="let l of lots" [ngValue]="l.id">
+          {{ l.name }}
+        </option>
+      </select>
+
+      <input
+        class="search"
+        type="search"
+        [(ngModel)]="search"
+        placeholder="Search plate or #ID…"
+      />
+    </div>
+  </div>
+
+  <div class="error-banner" *ngIf="error">{{ error }}</div>
+  <div class="loading" *ngIf="loading">Loading bookings...</div>
+
+  <div class="booking-table" *ngIf="!loading && filtered.length">
+    <div class="bt-head mono">
+      <span>#ID / TYPE</span>
+      <span>VEHICLE</span>
+      <span>LOT · SPOT</span>
+      <span>TIME WINDOW</span>
+      <span>AMOUNT</span>
+      <span>STATUS</span>
+      <span class="ta-r">ACTION</span>
+    </div>
+
+    <div class="bt-row" *ngFor="let b of filtered">
+      <div>
+        <div class="bt-id mono">#{{ b.id }}</div>
+        <div class="bt-type mono">
+          {{ b.bookingType === 1 ? 'PRE' : 'WALK-IN' }}
+        </div>
+      </div>
+
+      <div class="bt-plate">{{ b.vehiclePlate }}</div>
+
+      <div class="bt-lot mono">
+        <div>{{ lotName(b.lotId) }}</div>
+        <div class="faint">Spot #{{ b.spotId }}</div>
+      </div>
+
+      <div class="bt-time mono">
+        <div>{{ b.startTimeUtc | date:'MMM d · HH:mm' }}</div>
+        <div class="faint">
+          → {{ b.endTimeUtc | date:'MMM d · HH:mm' }}
+        </div>
+      </div>
+
+      <div class="bt-amt">
+        ₹{{ (b.finalAmount ?? b.estimatedAmount) | number:'1.0-0' }}
+      </div>
+
+      <div>
+        <span class="chip sm" [class]="statusClass(b.status)">
+          {{ statusLabel[b.status] }}
+        </span>
+      </div>
+
+      <div class="ta-r">
+        <button
+          class="btn ghost sm"
+          *ngIf="b.status === BookingStatus.Active"
+          [disabled]="actionId === b.id"
+          (click)="forceCheckout(b)"
+        >
+          Force checkout
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="empty" *ngIf="!loading && !filtered.length">
+    <h3>No bookings match</h3>
+    <p>Try adjusting the filter or lot selector.</p>
+  </div>
+</div>

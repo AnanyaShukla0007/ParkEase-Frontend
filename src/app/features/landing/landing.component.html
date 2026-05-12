@@ -1,0 +1,279 @@
+<!-- ====================================================================
+     HERO — moving cars on an endless road, glowing parking grid overhead
+     ==================================================================== -->
+<section class="hero">
+  <!-- Animated city skyline (SVG silhouette, parallax) -->
+  <div class="skyline"></div>
+
+  <!-- Glowing parking lot grid on the horizon -->
+  <div class="lot-horizon" aria-hidden="true">
+    <div class="lot-grid">
+      <div class="spot" *ngFor="let s of [].constructor(30); let i = index"
+           [class.taken]="i % 4 === 0"
+           [class.ev]="i % 7 === 0"
+           [style.--d]="(i * 0.12) + 's'"></div>
+    </div>
+    <div class="lot-floor"></div>
+  </div>
+
+  <!-- The road -->
+  <div class="road" aria-hidden="true">
+    <div class="lane lane-marks"></div>
+    <!-- Cars -->
+    <div class="car car-1">
+      <svg viewBox="0 0 120 48" fill="none">
+        <!-- Sedan silhouette, headlights glowing yellow -->
+        <path d="M8 34 L18 34 C20 30, 24 24, 30 22 L50 20 C58 18, 72 18, 80 20 L98 24 C104 26, 108 30, 110 34 L112 34 L112 38 L8 38 Z" fill="#ffd84d"/>
+        <path d="M30 22 L50 20 C58 18, 72 18, 80 20 L95 23 L88 24 L62 22 L38 24 Z" fill="#050a14" opacity=".35"/>
+        <circle cx="28" cy="38" r="5" fill="#050a14"/>
+        <circle cx="92" cy="38" r="5" fill="#050a14"/>
+        <circle cx="28" cy="38" r="2" fill="#ffd84d"/>
+        <circle cx="92" cy="38" r="2" fill="#ffd84d"/>
+        <rect x="108" y="30" width="4" height="4" rx="1" fill="#fff"/>
+      </svg>
+    </div>
+    <div class="car car-2">
+      <svg viewBox="0 0 140 50" fill="none">
+        <!-- SUV silhouette, cyan = EV -->
+        <path d="M6 36 L14 36 C16 30, 22 22, 30 20 L52 18 C68 16, 86 16, 98 18 L118 22 C124 24, 130 30, 132 36 L134 36 L134 40 L6 40 Z" fill="#5eead4"/>
+        <path d="M28 20 L52 18 C68 16, 86 16, 98 18 L116 22 L100 23 L70 20 L40 22 Z" fill="#050a14" opacity=".35"/>
+        <circle cx="30" cy="40" r="5.5" fill="#050a14"/>
+        <circle cx="108" cy="40" r="5.5" fill="#050a14"/>
+        <circle cx="30" cy="40" r="2" fill="#5eead4"/>
+        <circle cx="108" cy="40" r="2" fill="#5eead4"/>
+      </svg>
+      <span class="ev-bolt">⚡</span>
+    </div>
+    <div class="car car-3">
+      <svg viewBox="0 0 110 44" fill="none">
+        <!-- Hatchback, rose accent -->
+        <path d="M6 30 L16 30 C18 26, 22 20, 28 18 L46 16 C54 14, 66 14, 74 16 L90 20 C96 22, 100 26, 102 30 L104 30 L104 34 L6 34 Z" fill="#ff5d73"/>
+        <circle cx="24" cy="34" r="4.5" fill="#050a14"/>
+        <circle cx="84" cy="34" r="4.5" fill="#050a14"/>
+        <circle cx="24" cy="34" r="1.8" fill="#ff5d73"/>
+        <circle cx="84" cy="34" r="1.8" fill="#ff5d73"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Hero copy -->
+  <div class="hero-inner container-wide">
+    <span class="chip accent fade-up">◉ LIVE · MATHURA → NATIONWIDE</span>
+
+    <h1 class="hero-title fade-up delay-1">
+      ParkEase<br>
+      <em>Find. Reserve. Park.</em>
+    </h1>
+
+    <p class="hero-sub fade-up delay-2">
+      ParkEase turns every parking lot in your city into a reservable, real-time,
+      pay-as-you-leave network. One map. Every spot. Zero circling the block.
+    </p>
+
+    <div class="hero-cta fade-up delay-3">
+      <button class="btn" (click)="go('/register')">
+        <span>Find my spot</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="btn ghost" (click)="go('/driver/nearby')">Continue as guest</button>
+      <button class="btn ghost" (click)="go('/login')">I already have an account</button>
+    </div>
+
+    <!-- Live counters -->
+    <div class="hero-stats fade-up delay-4">
+      <div class="stat">
+        <div class="stat-num mono">1,247</div>
+        <div class="stat-label">Lots online</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num mono">
+          <span class="dot pulse"></span> 18,204
+        </div>
+        <div class="stat-label">Spots available right now</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num mono">₹11/hr</div>
+        <div class="stat-label">Avg. rate in your city</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="scroll-cue" aria-hidden="true">
+    <span class="mono">SCROLL</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ====================================================================
+     MARQUEE
+     ==================================================================== -->
+<section class="marquee-strip">
+  <div class="marquee-track">
+    <span *ngFor="let w of marquee.concat(marquee); let i = index" class="marquee-word">
+      {{ w }}
+      <span class="marquee-dot">◆</span>
+    </span>
+  </div>
+</section>
+
+<!-- ====================================================================
+     HOW IT WORKS
+     ==================================================================== -->
+<section class="section how">
+  <div class="container-wide">
+    <div class="section-head">
+      <span class="chip">§ 01 — THE FLOW</span>
+      <h2>Three taps from street to <em class="display-ital">stationary</em>.</h2>
+    </div>
+
+    <div class="steps">
+      <article class="step" *ngFor="let s of steps; let i = index">
+        <div class="step-n mono">{{ s.n }}</div>
+        <h3>{{ s.title }}</h3>
+        <p>{{ s.body }}</p>
+        <div class="step-glyph">
+          <!-- Different SVG for each step -->
+          <svg *ngIf="i === 0" viewBox="0 0 60 60" fill="none">
+            <circle cx="30" cy="26" r="10" stroke="currentColor" stroke-width="2"/>
+            <circle cx="30" cy="26" r="3" fill="currentColor"/>
+            <path d="M30 36 L30 52" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M22 52 L38 52" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <svg *ngIf="i === 1" viewBox="0 0 60 60" fill="none">
+            <rect x="10" y="14" width="40" height="30" rx="2" stroke="currentColor" stroke-width="2"/>
+            <rect x="16" y="20" width="8" height="8" fill="currentColor" opacity=".3"/>
+            <rect x="26" y="20" width="8" height="8" fill="currentColor"/>
+            <rect x="36" y="20" width="8" height="8" fill="currentColor" opacity=".3"/>
+            <rect x="16" y="30" width="8" height="8" fill="currentColor" opacity=".3"/>
+            <rect x="26" y="30" width="8" height="8" fill="currentColor" opacity=".3"/>
+            <rect x="36" y="30" width="8" height="8" fill="currentColor"/>
+          </svg>
+          <svg *ngIf="i === 2" viewBox="0 0 60 60" fill="none">
+            <path d="M8 40 L14 40 C16 34, 22 30, 30 30 L46 30 C52 34, 54 40, 54 40 L56 40 L56 44 L8 44 Z" fill="currentColor"/>
+            <circle cx="20" cy="44" r="3.5" stroke="#050a14" stroke-width="1.5" fill="currentColor"/>
+            <circle cx="44" cy="44" r="3.5" stroke="#050a14" stroke-width="1.5" fill="currentColor"/>
+            <path d="M20 16 L30 6 L40 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================================
+     LIVE CITY PULSE — fake live occupancy bars
+     ==================================================================== -->
+<section class="section pulse-section">
+  <div class="container-wide">
+    <div class="section-head">
+      <span class="chip cyan">§ 02 — CITY PULSE</span>
+      <h2>Every city, <em class="display-ital">every hour</em>, under one roof.</h2>
+      <p class="lede">
+        Real-time occupancy across the network. Lot managers see these numbers in their dashboard;
+        drivers see the spots behind them.
+      </p>
+    </div>
+
+    <div class="pulse-grid">
+      <div class="pulse-card" *ngFor="let c of cities; let i = index">
+        <div class="pulse-top">
+          <span class="pulse-city">{{ c.name }}</span>
+          <span class="pulse-pct mono" [class.hot]="c.occ > 85">{{ c.occ }}%</span>
+        </div>
+        <div class="pulse-bar">
+          <div class="pulse-fill"
+               [style.width.%]="c.occ"
+               [style.animation-delay]="(i * 0.1) + 's'"></div>
+        </div>
+        <div class="pulse-meta mono">
+          {{ c.occ > 85 ? '⚠ PEAK' : c.occ > 65 ? '● BUSY' : '○ OPEN' }}
+          <span class="dot"></span>
+          Updated just now
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================================
+     FEATURE GRID (editorial)
+     ==================================================================== -->
+<section class="section features">
+  <div class="container-wide">
+    <div class="section-head">
+      <span class="chip accent">§ 03 — THE SYSTEM</span>
+      <h2>Not a ticket booth. <em class="display-ital">A platform.</em></h2>
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature f-big">
+        <div class="f-label mono">DRIVER</div>
+        <h3>Reserve on the move.</h3>
+        <p>Live map, GPS proximity, floor-level spot view, and pay-on-exit via UPI, card, wallet, or cash. Your car, your call.</p>
+        <div class="f-art f-art-map">
+          <div class="map-pin" *ngFor="let _ of [].constructor(5); let i = index"
+               [style.top.%]="20 + i * 15"
+               [style.left.%]="15 + i * 17"
+               [style.--d]="(i * 0.3) + 's'"></div>
+        </div>
+      </div>
+
+      <div class="feature">
+        <div class="f-label mono">LOT MANAGER</div>
+        <h3>Dashboard, not clipboard.</h3>
+        <p>Bulk-create spots, toggle open/closed in one tap, watch occupancy heatmaps, and download daily revenue reports.</p>
+      </div>
+
+      <div class="feature f-cyan">
+        <div class="f-label mono">EV-FIRST</div>
+        <h3>Charging flagged.</h3>
+        <p>EV-only spots surface first for EV-tagged vehicles. Handicapped spots get their own filter. Nothing gets lost in the list.</p>
+      </div>
+
+      <div class="feature">
+        <div class="f-label mono">ADMIN</div>
+        <h3>Approve. Audit. Scale.</h3>
+        <p>Review lot registrations, manage users, see every booking across the platform, and export financial reports for reconciliation.</p>
+      </div>
+
+      <div class="feature f-dark">
+        <div class="f-label mono">ARCHITECTURE</div>
+        <h3 class="display-ital">Eight services.<br>One gateway.</h3>
+        <p class="mono sm">
+          AUTH · LOTS · SPOTS · BOOKINGS<br>
+          PAYMENTS · VEHICLES · NOTIFY · ANALYTICS
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================================
+     CTA
+     ==================================================================== -->
+<section class="section cta-section">
+  <div class="container-narrow">
+    <h2>Ready when <em class="display-ital">you</em> are.</h2>
+    <p>Join as a driver to reserve your first spot, or as a lot manager to list your facility.</p>
+    <div class="cta-buttons">
+      <button class="btn" (click)="go('/register')">Create an account</button>
+      <button class="btn ghost" (click)="go('/driver/nearby')">Continue as guest</button>
+      <button class="btn ghost" (click)="go('/login')">Sign in</button>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================================
+     FOOTER
+     ==================================================================== -->
+<footer class="foot">
+  <div class="container-wide foot-inner">
+    <div class="foot-brand">
+      <span class="brand-mark">P◎</span>
+      <span class="brand-name">ParkEase</span>
+    </div>
+    <p class="foot-tag mono">FIND · RESERVE · PARK · EFFORTLESSLY</p>
+    <p class="foot-legal">© 2026 ParkEase Platform · Built on ASP.NET Core 8 · Angular 16</p>
+  </div>
+</footer>

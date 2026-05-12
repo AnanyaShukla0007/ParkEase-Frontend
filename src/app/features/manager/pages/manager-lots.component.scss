@@ -1,0 +1,115 @@
+:host { display: block; }
+
+.lot-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.lot-card {
+  background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,0));
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 24px 26px;
+  position: relative;
+  overflow: hidden;
+  transition: transform .3s var(--ease-out), border-color .3s;
+}
+.lot-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-strong);
+}
+.lot-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--amber), var(--cyan));
+  opacity: .6;
+}
+
+.lot-card-head {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.chip.sm { padding: 2px 8px; font-size: .6rem; }
+.chip.lime { color: var(--lime); border-color: rgba(198,255,77,.35); background: rgba(198,255,77,.06); }
+.chip.amber { color: var(--amber); border-color: rgba(255,216,77,.35); background: rgba(255,216,77,.06); }
+.chip.rose { color: var(--rose); border-color: rgba(255,93,115,.35); background: rgba(255,93,115,.08); }
+
+.lot-card-name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.4rem;
+  color: var(--paper);
+  margin: 0 0 6px;
+  letter-spacing: -0.01em;
+}
+.lot-card-addr {
+  color: var(--text-dim);
+  font-size: .85rem;
+  margin-bottom: 20px;
+  line-height: 1.4;
+}
+
+.lot-card-stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+.lcs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.lcs-v {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.6rem;
+  color: var(--amber);
+  line-height: 1;
+}
+.lcs-l {
+  font-size: .65rem;
+  color: var(--text-faint);
+  letter-spacing: .18em;
+  margin-top: 4px;
+}
+.lcs-sep {
+  width: 1px;
+  height: 28px;
+  background: var(--border);
+}
+
+.lot-card-actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* ---- Modal wide variant ---- */
+.modal.wide { max-width: 680px; }
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+@media (max-width: 600px) { .grid-3 { grid-template-columns: 1fr; } }
+
+.geo-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+}
+.geo-inputs { flex: 1; }
+.locate {
+  margin-bottom: 16px;
+  white-space: nowrap;
+}

@@ -1,0 +1,70 @@
+<div class="nearby-layout">
+  <aside class="lots-side">
+    <div class="side-head">
+      <span class="chip accent">{{ loading ? 'SCANNING...' : filtered.length + ' LOTS FOUND' }}</span>
+      <h1>Nearby <em>parking</em></h1>
+      <p class="sub" *ngIf="!auth.isLoggedIn">
+        Guest mode lets you browse availability. Sign in when you want to reserve or check in.
+      </p>
+      <p class="sub" *ngIf="coords">
+        <span class="mono">{{ coords.lat.toFixed(4) }}, {{ coords.lng.toFixed(4) }}</span>
+        - sorted by distance from your position.
+      </p>
+    </div>
+
+    <div class="filter-bar">
+      <button class="filter-btn" [class.active]="filter === 'ALL'" (click)="filter = 'ALL'">All</button>
+      <button class="filter-btn" [class.active]="filter === 'OPEN'" (click)="filter = 'OPEN'">Open now</button>
+      <button class="filter-btn" [class.active]="filter === 'NEARBY'" (click)="filter = 'NEARBY'">Nearest 10</button>
+    </div>
+
+    <div class="loading" *ngIf="loading">Locating lots near you...</div>
+    <div class="error-banner" *ngIf="error && !loading">{{ error }}</div>
+
+    <div class="lots-list" *ngIf="!loading && !error">
+      <article
+        *ngFor="let lot of filtered"
+        class="lot-row"
+        [class.hovered]="hoveredId === lot.id"
+        (mouseenter)="hoveredId = lot.id"
+        (mouseleave)="hoveredId = null"
+        (click)="focusLot(lot)">
+        <div class="lot-marker" [class]="availabilityClass(lot)">
+          {{ lot.availableSpots }}
+        </div>
+
+        <div class="lot-body">
+          <div class="lot-name">{{ lot.name }}</div>
+          <div class="lot-addr">{{ lot.address }}, {{ lot.city }}</div>
+          <div class="lot-meta mono">
+            {{ lot.distanceKm.toFixed(1) }} km
+            - ~{{ lot.estimatedMinutes }} min
+            - {{ lot.availableSpots }}/{{ lot.totalSpots }}
+            <span class="chip sm" [class.rose]="!lot.isOpen" [class.lime]="lot.isOpen">
+              {{ lot.isOpen ? 'OPEN' : 'CLOSED' }}
+            </span>
+          </div>
+        </div>
+
+        <button class="btn sm" (click)="open(lot); $event.stopPropagation()">
+          {{ auth.isLoggedIn ? 'Book' : 'View' }} ->
+        </button>
+      </article>
+
+      <div class="empty" *ngIf="filtered.length === 0">
+        <h3>No lots match that filter</h3>
+        <p>Try switching to "All" or expanding your search radius later.</p>
+      </div>
+    </div>
+  </aside>
+
+  <div class="map-wrap">
+    <div #mapEl class="map"></div>
+    <div class="map-legend">
+      <div class="legend-item"><span class="dot lime"></span> 5+ spots open</div>
+      <div class="legend-item"><span class="dot amber"></span> Filling up</div>
+      <div class="legend-item"><span class="dot rose"></span> Full / closed</div>
+      <div class="legend-item"><span class="dot cyan"></span> You</div>
+    </div>
+  </div>
+</div>

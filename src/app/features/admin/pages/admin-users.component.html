@@ -1,0 +1,84 @@
+<div class="dash-body">
+  <div class="dash-hero">
+    <div>
+      <div class="hello">◉ USER MANAGEMENT</div>
+      <h1>Every <em>account</em> on the platform</h1>
+      <p class="sub">Search, filter, suspend, or permanently delete any user. Handle with care.</p>
+    </div>
+  </div>
+
+  <!-- Summary chips -->
+  <div class="role-counts">
+    <div class="rc"><span class="rc-v">{{ counts.total }}</span> <span class="rc-l mono">TOTAL</span></div>
+    <div class="rc"><span class="rc-v cyan">{{ counts.drivers }}</span> <span class="rc-l mono">DRIVERS</span></div>
+    <div class="rc"><span class="rc-v lime">{{ counts.managers }}</span> <span class="rc-l mono">MANAGERS</span></div>
+    <div class="rc"><span class="rc-v amber">{{ counts.admins }}</span> <span class="rc-l mono">ADMINS</span></div>
+    <div class="rc"><span class="rc-v rose">{{ counts.inactive }}</span> <span class="rc-l mono">SUSPENDED</span></div>
+  </div>
+
+  <div class="toolbar">
+    <div class="filter-bar">
+      <button class="filter-btn" [class.active]="roleFilter === 'ALL'" (click)="roleFilter = 'ALL'">All</button>
+      <button class="filter-btn" [class.active]="roleFilter === 'DRIVER'" (click)="roleFilter = 'DRIVER'">Drivers</button>
+      <button class="filter-btn" [class.active]="roleFilter === 'MANAGER'" (click)="roleFilter = 'MANAGER'">Managers</button>
+      <button class="filter-btn" [class.active]="roleFilter === 'ADMIN'" (click)="roleFilter = 'ADMIN'">Admins</button>
+    </div>
+    <input class="search" type="search" [(ngModel)]="search" placeholder="Search by name, email, phone...">
+  </div>
+
+  <div class="loading" *ngIf="loading">Loading users...</div>
+  <div class="error-banner" *ngIf="error">{{ error }}</div>
+
+  <!-- Table -->
+  <div class="user-table" *ngIf="!loading && filtered.length">
+    <div class="ut-head mono">
+      <span>USER</span>
+      <span>CONTACT</span>
+      <span>ROLE</span>
+      <span>STATUS</span>
+      <span class="ta-r">ACTIONS</span>
+    </div>
+
+    <div class="ut-row" *ngFor="let u of filtered" [class.inactive]="!u.isActive">
+      <div class="ut-user">
+        <div class="ut-avatar">{{ initials(u.fullName) }}</div>
+        <div>
+          <div class="ut-name">{{ u.fullName }}</div>
+          <div class="ut-id mono">#{{ u.id }} · JOINED {{ u.createdAt | date:'MMM d, yyyy' }}</div>
+        </div>
+      </div>
+      <div class="ut-contact">
+        <div class="ut-email">{{ u.email }}</div>
+        <div class="ut-phone mono">{{ u.phoneNumber }}</div>
+      </div>
+      <div>
+        <span class="chip" [class.cyan]="u.role === 'DRIVER'" [class.lime]="u.role === 'MANAGER'" [class.amber]="u.role === 'ADMIN'">
+          {{ u.role }}
+        </span>
+      </div>
+      <div>
+        <span class="chip sm" [class.lime]="u.isActive" [class.rose]="!u.isActive">
+          {{ u.isActive ? '● ACTIVE' : '○ SUSPENDED' }}
+        </span>
+      </div>
+      <div class="ut-actions">
+        <button *ngIf="u.isActive"
+                class="btn ghost sm"
+                [disabled]="actionId === u.id"
+                (click)="suspend(u)">Suspend</button>
+        <button *ngIf="!u.isActive"
+                class="btn cyan sm"
+                [disabled]="actionId === u.id"
+                (click)="reactivate(u)">Reactivate</button>
+        <button class="btn danger sm"
+                [disabled]="actionId === u.id"
+                (click)="delete(u)">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="empty" *ngIf="!loading && !filtered.length">
+    <h3>No users match</h3>
+    <p>Try a different role filter or clear your search.</p>
+  </div>
+</div>

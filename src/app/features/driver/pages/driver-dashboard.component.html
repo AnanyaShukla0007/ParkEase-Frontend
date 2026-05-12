@@ -1,0 +1,121 @@
+<div class="dash-body">
+  <div class="dash-hero">
+    <div>
+      <div class="hello">◉ {{ auth.currentUser?.email }}</div>
+      <h1>Hey {{ (auth.currentUser?.fullName || '').split(' ')[0] }}, <em>where to?</em></h1>
+      <p class="sub">Your parking history, upcoming reservations, and registered vehicles — all in one place.</p>
+    </div>
+    <button class="btn" (click)="go('/driver/nearby')">
+      <span>Find a spot</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+
+  <div class="loading" *ngIf="loading">Syncing your garage...</div>
+
+  <ng-container *ngIf="!loading">
+    <!-- Stats -->
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="label">Active reservations</div>
+        <div class="val amber">{{ active }}</div>
+        <div class="hint">{{ active === 0 ? 'No car parked right now' : 'Cars currently out' }}</div>
+      </div>
+      <div class="stat-card cyan">
+        <div class="label">Completed trips</div>
+        <div class="val cyan">{{ completed }}</div>
+        <div class="hint">Total sessions on ParkEase</div>
+      </div>
+      <div class="stat-card lime">
+        <div class="label">Total spent</div>
+        <div class="val lime">₹{{ totalSpent | number:'1.0-0' }}</div>
+        <div class="hint">Across completed bookings</div>
+      </div>
+      <div class="stat-card rose">
+        <div class="label">Unread alerts</div>
+        <div class="val rose">{{ unreadCount }}</div>
+        <div class="hint">{{ unreadCount === 0 ? 'Inbox zero, nice' : 'Check your notifications' }}</div>
+      </div>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-card lime">
+        <div class="label">Trust score</div>
+        <div class="val lime">{{ trustScore }}</div>
+        <div class="hint">Rewards timely exits, payments, and clean bookings</div>
+      </div>
+      <div class="stat-card cyan">
+        <div class="label">CO2 reduced</div>
+        <div class="val cyan">{{ carbonKg | number:'1.1-1' }} kg</div>
+        <div class="hint">{{ minutesSaved | number:'1.0-0' }} idle-search minutes saved</div>
+      </div>
+    </div>
+
+    <!-- Upcoming -->
+    <div class="dash-section">
+      <div class="section-bar">
+        <h2>Upcoming <em>bookings</em></h2>
+        <a class="count" routerLink="/driver/bookings">VIEW ALL →</a>
+      </div>
+
+      <div class="data-list" *ngIf="upcoming.length; else noUpcoming">
+        <div class="data-item" *ngFor="let b of upcoming">
+          <div class="data-marker" [class.cyan]="b.status === BookingStatus.Active">
+            #{{ b.id }}
+          </div>
+          <div class="data-body">
+            <div class="data-title">Lot #{{ b.lotId }} · Spot #{{ b.spotId }} · {{ b.vehiclePlate }}</div>
+            <div class="data-meta">
+              {{ b.startTimeUtc | date:'MMM d, HH:mm' }} → {{ b.endTimeUtc | date:'HH:mm' }}
+              · {{ statusLabel(b) }}
+            </div>
+          </div>
+          <div class="data-actions">
+            <button class="btn ghost sm" (click)="go('/driver/bookings')">Details</button>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #noUpcoming>
+        <div class="empty">
+          <h3>No upcoming bookings</h3>
+          <p>Spin up the map, find a nearby lot, and reserve a spot in a couple taps.</p>
+          <button class="btn" (click)="go('/driver/nearby')">Find nearby lots</button>
+        </div>
+      </ng-template>
+    </div>
+
+    <!-- Vehicles -->
+    <div class="dash-section">
+      <div class="section-bar">
+        <h2>Your <em>garage</em></h2>
+        <a class="count" routerLink="/driver/vehicles">MANAGE →</a>
+      </div>
+
+      <div class="data-list" *ngIf="vehicles.length; else noVehicles">
+        <div class="data-item" *ngFor="let v of vehicles.slice(0, 3)">
+          <div class="data-marker" [class.cyan]="v.isEV">
+            {{ v.isEV ? '⚡' : '🚗' }}
+          </div>
+          <div class="data-body">
+            <div class="data-title">{{ v.make }} {{ v.model }} · {{ v.color }}</div>
+            <div class="data-meta">{{ v.licensePlate }} · {{ v.isEV ? 'ELECTRIC' : 'ICE' }}</div>
+          </div>
+          <div class="data-actions">
+            <span class="chip" [class.cyan]="v.isEV" [class.lime]="v.isActive && !v.isEV">
+              {{ v.isActive ? 'ACTIVE' : 'INACTIVE' }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #noVehicles>
+        <div class="empty">
+          <h3>No vehicles yet</h3>
+          <p>Register at least one vehicle to create bookings.</p>
+          <button class="btn" (click)="go('/driver/vehicles')">Add a vehicle</button>
+        </div>
+      </ng-template>
+    </div>
+  </ng-container>
+</div>
