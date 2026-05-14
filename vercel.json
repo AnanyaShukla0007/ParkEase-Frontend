@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/v1/:path*",
-      "destination": "https://parkease-api-gateway.onrender.com/api/v1/:path*"
+      "destination": "https://parkease-api-gateway-aigx.onrender.com/api/v1/:path*"
     },
     {
       "source": "/(.*)",
